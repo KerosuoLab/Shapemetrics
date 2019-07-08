@@ -3,11 +3,10 @@
 - [Input data](##input-data)
 - [Thresholding](##thresholding)
 
-First, make sure that you are in the right folder (where all your files are so that matlab can download the files in without errors.
-The folder can be changed from the small arrow on the top line of this window, where your current path is  showing. 
-Run each section with command shift+enter. The most common error when trying to run the first section is being in the wrong folder,
-which matlab states as follows: "the file xxx does not exist".
-Only change names etc. that are between these lines.       
+When you open our script 3Dsegmentation_memb_final.m in matlab, make sure that you are in the right folder (where all your files are) so that matlab can download the files in without errors.
+The folder can be changed from the small arrow on the top line of matlab window, where your current path is showing or by moving the script itself to the right folder.
+Run each section with command shift+enter. The most common error when trying to run the first section is being in the wrong folder, which matlab states as follows: "the file xxx does not exist".
+Only change filenames and follow the code comments. Aything asked to change is between lines.       
 Anything outside the lines is not needed to change, and possible errors do not come from parts outside the lines.     
 
 ## Input data
