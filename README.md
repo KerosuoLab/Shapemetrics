@@ -150,7 +150,7 @@ Write the name of the value variable in between two lines in section 5 and run t
 seg_final = seg4_MEMB;
 ```
 
-## Create label matrix with watershed
+## Watershed label matrix
 
 **Create the seed for watershed algortihm**
 
