@@ -19,4 +19,5 @@ figure
 imshow(sum(pred_MEMB,3),[])                                         
 title('Ilastik prediction map, z-projection, membrane ch')
 ```
-![Ilastik Prediction map, kidney](/1)b_tbud_ilastik_predmap_zproj.png)
+![](images/tbud_ilastik_predmap_zproj.png)
+
