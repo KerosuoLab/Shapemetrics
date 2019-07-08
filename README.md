@@ -5,6 +5,7 @@
   - [Pixel thresholding](#pixel-value-thresholding)
   - [Size thresholding](#size-thresholding)
 - [Watershed label matrix](#create-label-matrix-with-watershed)
+- [Extracting spatial parameters](#extracting-spatial-and-volumetric-parameter-values-for-each-cell)
 
 When you open our script 3Dsegmentation_memb_final.m in matlab, make sure that you are in the right folder (where all your files are) so that matlab can download the files in without errors.
 The folder can be changed from the small arrow on the top line of matlab window, where your current path is showing or by moving the script itself to the right folder.
@@ -174,7 +175,7 @@ for z = 1 : size(original_img_MEMB,3)
 
 <img src="images/STD_Segmentation_borders_membrane.png" width="300">
 
-## Calculation of volumetric parameter values for each cell
+## Extracting spatial and volumetric parameter values for each cell
 
 Using the Matlab function "regionprops3" we extract the volumetric and spatial parameter values from the label matrix. We introduce all together 8 different parameters:
 ```
