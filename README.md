@@ -342,9 +342,6 @@ figure
 imshow(max(original_img_MEMB,[],3),[]) 
 hold on
 ```
-
-<img src="images/centroid_exmp.png" width="300">
-
 Loop through the number of branches, filling the created structure list with each cell group's cell identities. This part also plots all the cell centroids on top of the original image open on screen, each group is colored with different color:
 ```
 for n = branches 
@@ -363,6 +360,9 @@ for n = branches
 end
 hold off
 ```
+
+<img src="images/centroid_exmp.png" width="300">
+
 Next, we search these groups of cells from the original label matrix:
 ```
 for i = 1 : length(sub_cluster_MEMB)
