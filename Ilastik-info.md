@@ -29,7 +29,11 @@ The goal of this part is to perform the machine learning based segmentation for 
 
 **4.** From “Feature Selection” we chose all the features in our pipeline. 
 
-**5.** After selecting the features, move on to “Training” and add two labels by pressing “+Add Label”. With Label1 (red) mark the membrane and with Label2 (green) mark the background and the cell interiors. The result will be more accurate when the drawing is done precisely. After drawing, press “Live Update” to start the machine learning algorithm and visualize the results.
+**5.** After selecting the features, move on to “Training” and add two labels by pressing “+Add Label”. With Label1 (red) mark the membrane and with Label2 (green) mark the background and the cell interiors as the image below demonstrates.
+
+<img 
+
+The result will be more accurate when the drawing is done precisely. After drawing, press “Live Update” to start the machine learning algorithm and visualize the results.
 
 **6.** After the live update is done, the image will have red and green overlay. This indicates the result of machine learning segmentation. If you think the result could be better, draw more labels to the image to improve the result.
 
