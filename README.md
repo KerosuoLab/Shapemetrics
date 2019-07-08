@@ -199,6 +199,9 @@ LongestAxis          = stats_MEMB.PrincipalAxisLength(:,1); % length of the long
 CellElongation       = LongestAxis./((stats_MEMB.PrincipalAxisLength(:,2).*stats_MEMB.PrincipalAxisLength(:,3))./2);
 NumberOfCells        = size(stats_MEMB.Volume,1);           % number of cells
 ```
+*Description of our parameters are shown on this table:*
+<img src="images/parameters.png" width="700">
+
 We check the volume distribution of the cells with histogram plot:
 ```
 figure                                                              
