@@ -291,3 +291,5 @@ branches = [];
 % 4) what is going to be the name of the colored .tif image?
 name = '.tif';
 ```
+Ceren fill these above according to what example heat map are you putting here :)
+
