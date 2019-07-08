@@ -5,6 +5,7 @@ Run each section with command shift+enter. The most common error when trying to 
 which matlab states as follows: "the file xxx does not exist".
 Only change names etc. that are between these lines.       
 Anything outside the lines is not needed to change, and possible errors do not come from parts outside the lines.     
+## Input data
 
 **Loading the Ilastik prediction map in**
 ```
@@ -47,7 +48,7 @@ imshow(sum(img_blur_MEMB,3),[])
 title('Blurred version of membrane image, using strel3D function') 
 ```
 <img src="images/tbud_original_img_blurred-zproj.png" width="400">
-
+## Thresholding 
 **Pixel value and size thresholding**
 First, we set the pixel thresholding values. These values are pixel values between 0 and 1. To reach high accuracy in segmentation we introduce four different values in our code and later we choose the best of them. 
 ```
