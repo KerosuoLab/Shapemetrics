@@ -20,7 +20,7 @@ Here change variable names and parameters asked
 
 Here, outside the lines, don't change anyting
 ```
-Anything outside the lines is not needed to change, and possible errors do not come from parts outside the lines.     
+Anything outside the lines is not needed to change, and possible errors do not come from parts outside the lines. Lines are only in the script file, not in this example file.    
 
 ## Input data
 
@@ -28,9 +28,7 @@ Anything outside the lines is not needed to change, and possible errors do not c
 
 The Ilastik prediction map is .h5 format file which is exported from Ilastik machine learning program's pixel classification platform. It consists of cotinuous pixel values from 0 to 1 assigned based on the machine learning training done by user.
 ```
-%================================================================%
 ilastik_filename_MEMB = 'filename.h5'; %write here the file name
-%================================================================%
 ilastik_file_MEMB = h5read(ilastik_filename_MEMB,'/exported_data/');
 pred_MEMB = squeeze(ilastik_file_MEMB(2,:,:,:));
 pred_MEMB = permute(pred_MEMB,[2,1,3]);
@@ -47,9 +45,7 @@ title('Ilastik prediction map, z-projection, membrane ch')
 
 Original z-stack image is the membrane staining image. We use the same image as an input file to both Ilastik machine learning and our Matlab script. Make sure the format is .tif
 ```
-%================================================================%
 imagename_MEMB = 'imagename.tif';
-%================================================================%
 original_img_MEMB = 0*pred_MEMB;
 for z = 1 : size(pred_MEMB,3) 
   temp = imread(imagename_MEMB,z);
@@ -114,16 +110,14 @@ title('seg4 MEMB (membrane ch), ilastik prediction map th>0.95')
 
 ### Size thresholding
 
-The next step is to run the size thresholding part. In section 4.3 of the code, we use the pixel value thresholding variables and restrict the size of grouped pixels (i.e. cells and background) to extract the background leaving us with only individual cells. We do the size thresholding with same size restrictions to all pixel value thresholding variables (generated in section 4) to compare the results between pixel values and to choose the best of them. Try first with default values (min: 100 and max: 200000) and if the image shows no cells, reduce the max value by removing one zero. Run the sections 4 and 4.3 again. On contrary, if the cells are visible but so is the background, increase the max value by adding one zero and run the sections 4 and 4.3 again.
+The next step is to run the size thresholding part. In section 4.3 of the code, we use the pixel value thresholding variables and restrict the size of grouped pixels (i.e. cells and background) to extract the background leaving us with only individual cells. We do the size thresholding with same size restrictions to all pixel value thresholding variables (generated in section 4) to compare the results between pixel values and to choose the best of them. Try first with default values (min: 100 and max: 15000) and if the image shows no cells, reduce the max value by removing one zero. Run the sections 4 and 4.3 again. On contrary, if the cells are visible but so is the background, increase the max value by adding one zero and run the sections 4 and 4.3 again.
 
 Below are visualized the same three pixel values (>0.8. >0.9, >0.95) with size thresholding:
 
 *For threshold value >0.8*
 ```
-%================================================================%
 seg2_MEMB = bwareaopen(seg2_MEMB,100);                               
 seg2_MEMB = seg2_MEMB-bwareaopen(seg2_MEMB,200000);
-%================================================================%
 figure                                                              
 imshow(sum(single(seg2_MEMB),3),[]);                                
 title('z-projection of size th prediction map seg2 MEMB, pixel values > 0.8')
@@ -132,10 +126,8 @@ title('z-projection of size th prediction map seg2 MEMB, pixel values > 0.8')
 
 *For threshold value >0.9*
 ```
-%================================================================%
 seg3_MEMB = bwareaopen(seg3_MEMB,100);                               
-seg3_MEMB = seg3_MEMB-bwareaopen(seg3_MEMB,200000);
-%================================================================%
+seg3_MEMB = seg3_MEMB-bwareaopen(seg3_MEMB,150000);
 figure                                                              
 imshow(sum(single(seg3_MEMB),3),[]);                                
 title('z-projection of size th prediction map seg3 MEMB, pixel values > 0.9')
@@ -144,10 +136,8 @@ title('z-projection of size th prediction map seg3 MEMB, pixel values > 0.9')
 
 *For threshold value >0.95*
 ```
-%================================================================%
 seg4_MEMB = bwareaopen(seg4_MEMB,100);                               
-seg4_MEMB = seg4_MEMB-bwareaopen(seg4_MEMB,200000);
-%================================================================%
+seg4_MEMB = seg4_MEMB-bwareaopen(seg4_MEMB,150000);
 figure                                                              
 imshow(sum(single(seg4_MEMB),3),[]);                                
 title('z-projection of size th prediction map seg4 MEMB, pixel values > 0.95')
@@ -157,9 +147,7 @@ title('z-projection of size th prediction map seg4 MEMB, pixel values > 0.95')
 Now we choose the most optimal pixel thresholding value (variables named seg1_MEMB – seg4_MEMB) based on the images on section 4.3. (exapmles visualized above). Best value gives whole individual cells without the background (example with >0.95). In most cases, values 0.8 (seg4_MEMB), 0.9 (seg5_MEMB) and 0.95 (seg4_MEMB) are the best ones.
 Write the name of the value variable in between two lines in section 5 and run the section 5: Here we choose the value >0.95 i.e. the variable seg4_MEMB:
 ```
-%================================================================%
 seg_final = seg4_MEMB;
-%================================================================%
 ```
 
 ## Create label matrix with watershed
@@ -173,10 +161,8 @@ seed_MEMB = imimposemin(img_blur_MEMB,seg_final);
 The label matrix contains information and labels of each idividual cell from the watershed segmentation. We use the machine learning segmentation tool (Ilastik) together with watershed algorithm to obtain as accurate and unbiased segmentation as possible. Below we create the label matrix and run it through the same size thresholding limits as previously with the pixel values:
 ```
 Label_MEMB = watershed(seed_MEMB);
-%================================================================%
-Label2_MEMB = bwareaopen(Label_MEMB,200);                    % min                   
-Label2_MEMB = Label2_MEMB - bwareaopen(Label_MEMB,200000);   % max
-%================================================================%
+Label2_MEMB = bwareaopen(Label_MEMB,100);                   % min                   
+Label2_MEMB = Label2_MEMB - bwareaopen(Label_MEMB,15000);   % max
 Final_Label_MEMB = bwlabeln(Label2_MEMB); 
 ```
 To visualize the label matrix, look at the variable "Final_Label_MEMB" in Matlab app Volume viewer...
@@ -217,9 +203,7 @@ We check the volume distribution of the cells with histogram plot:
 ```
 figure                                                              
 hist(CellVolumes,100)
-%================================================================%
-title('Cell volumes, number of cells = 319 ') %w rite here number of cells
-%================================================================%
+title('Cell volumes, number of cells = 319 ') % write here number of cells
 ylabel('Number of Cells with certain volume')
 xlabel('Cell Volume in voxels')
 ```
