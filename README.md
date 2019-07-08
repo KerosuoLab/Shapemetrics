@@ -32,6 +32,8 @@ title('Ilastik prediction map, z-projection, membrane ch')
 <img src="images/tbud_ilastik_predmap_zproj.png" width="400">
 
 **Loading the original z-stack image in and visualizing it**
+
+Original z-stack image is the membrane staining image. We use the same image as an input file to both Ilastik machine learning and our Matlab script. Make sure the format is .tif! (The conversion from microscope format stacks to tiff can be done in FJI/ImageJ)
 ```
 imagename_MEMB = 'imagename.tif';
 original_img_MEMB = 0*pred_MEMB;
