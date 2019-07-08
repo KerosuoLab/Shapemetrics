@@ -47,4 +47,31 @@ imshow(sum(img_blur_MEMB,3),[])
 ```
 <img src="images/tbud_original_img_blurred-zproj.png" width="400">
 
+**Pixel value and size thresholding**
+First, we set the pixel thresholding values. These values are pixel values between 0 and 1. To reach high accuracy in segmentation we introduce six different values in our code and later we choose the best of them. 
+```
+seg1_MEMB = pred_MEMB>0.5; 
+seg2_MEMB = pred_MEMB>0.6;
+seg3_MEMB = pred_MEMB>0.7;
+seg4_MEMB = pred_MEMB>0.8;
+seg5_MEMB = pred_MEMB>0.9;
+seg6_MEMB = pred_MEMB>0.95;
+```
+In our code, we go through all these values by visualizing them one by one (code section 4.2). Here we show two examples
+ of visualization
+*For threshold value >0.9*
+ ```
+ figure                                                              
+imshow(sum(single(seg5_MEMB),3),[]);                                
+title('seg5 MEMB (membrane ch), ilastik prediction map th>0.9')     
+```
+<img src="images/tbud_ilastik_predmap_th90_sz_th.png" width="400">
+
+*For threshold value >0.95*
+ ```
+ figure                                                              
+imshow(sum(single(seg6_MEMB),3),[]);                                
+title('seg6 MEMB (membrane ch), ilastik prediction map th>0.95')     
+```
+<img src="images/tbud_ilastik_predmap_th95_sz_th.png" width="400">
 
