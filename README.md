@@ -266,8 +266,3 @@ heatm_MEMB_1thru4    = clustergram(zscored_MEMB_1thru4','RowLabels',parameters_1
 ```
 *all 5 parameters*
 
-<img src="images/tbud_heatmap_all5_params.png" width="800">
-
-*parameters 1-4*
-
-<img src="images/tbud_heatmap_1thru4_params.png" width="800">
