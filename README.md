@@ -18,7 +18,7 @@ Only change filenames and follow the code comments. Aything asked to change is b
 Here change variable names and parameters asked
 %==============================================%
 
-Here, outside the lines, don't change anyting
+Here, outside the lines, don't change anything
 ```
 Anything outside the lines is not needed to change, and possible errors do not come from parts outside the lines. Lines are only in the script file, not in this example file.    
 
