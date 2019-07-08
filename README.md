@@ -75,10 +75,45 @@ title('seg3 MEMB (membrane ch), ilastik prediction map th>0.9')
 ```
 <img src="images/tbud_ilastik_predmap_th90.png" width="400">
 
+*For threshold value >0.95*
 ```
 figure                                                                                 
 imshow(sum(single(seg4_MEMB),3),[]);                                
 title('seg4 MEMB (membrane ch), ilastik prediction map th>0.95')   
 ```
 <img src="images/tbud_ilastik_predmap_th95.png" width="400">
+
+The next step is to run the size thresholding part. In section 4.3 of the code, we use the pixel value thresholding variables and restrict the size of grouped pixels (i.e. cells and background) to extract the background leaving us with only individual cells. We do the size thresholding with same size restrictions to all pixel value thresholding variables (generated in section 4) to compare the results between pixel values and to choose the best of them. Try first with default values (min: 100 and max: 200000) and if the image shows no cells, reduce the max value by removing one zero. Run the sections 4 and 4.3 again. On contrary, if the cells are visible but so is the background, increase the max value by adding one zero and run the sections 4 and 4.3 again.
+
+Below are visualized the same three pixel values (>0.8. >0.9, >0,95) with size thresholding:
+
+*For threshold value >0.8*
+```
+seg2_MEMB = bwareaopen(seg2_MEMB,100);                               
+seg2_MEMB = seg2_MEMB-bwareaopen(seg2_MEMB,200000);
+figure                                                              
+imshow(sum(single(seg2_MEMB),3),[]);                                
+title('z-projection of size th prediction map seg2 MEMB, pixel values > 0.8')
+```
+<img src="images/tbud_ilastik_predmap_th80_sz_th.png" width="400">
+
+*For threshold value >0.9*
+```
+seg3_MEMB = bwareaopen(seg3_MEMB,100);                               
+seg3_MEMB = seg3_MEMB-bwareaopen(seg3_MEMB,200000);
+figure                                                              
+imshow(sum(single(seg3_MEMB),3),[]);                                
+title('z-projection of size th prediction map seg3 MEMB, pixel values > 0.9')
+```
+<img src="images/tbud_ilastik_predmap_th90_sz_th.png" width="400">
+
+*For threshold value >0.95*
+```
+seg4_MEMB = bwareaopen(seg4_MEMB,100);                               
+seg4_MEMB = seg4_MEMB-bwareaopen(seg4_MEMB,200000);
+figure                                                              
+imshow(sum(single(seg4_MEMB),3),[]);                                
+title('z-projection of size th prediction map seg4 MEMB, pixel values > 0.95')
+```
+<img src="images/tbud_ilastik_predmap_th95_sz_th.png" width="400">
 
