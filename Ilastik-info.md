@@ -1,9 +1,9 @@
 # Ilastik instructions
 
-- [A. Before Ilastik](#a-before-ilastik-machine-learning---first-steps)
+- [A. Before Ilastik](#a-before-ilastik---first-steps)
 - [B. Ilastik machine learning](#b-ilastik-machine-learning)
 
-## A. Before Ilastik machine learning - first steps
+## A. Before Ilastik - first steps
 
 The image file type used throughout our analysis is .tiff. However, raw microscope data rarely comes in .tif format by default. In addition, the stacks are often stored in a folder of individual 2D stacks instead of one 3D z-stack image. Convert the microscope file to .tif z-stack using the following steps:
 
