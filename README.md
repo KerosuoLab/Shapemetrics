@@ -257,12 +257,17 @@ parameters_1and3     = {'Cell Volume','Cell Ellipticity'};
 ### Create hierarchial clustering heat maps of the parameter values
 
 We use the matlab "clustergram" function to create hierarchial clustering heat maps for all the parameter values in each cell. Each column represents  individual cell whereas each row represents parameter value. Red indicates high value and blue low value.
-Visualized here are two example heat maps (all parameters and parameters 1 through 4), yet all possible ones are in the script and come to the screen by default after running the section 12.2. The heat map branches can be assigned with color of choice manually, as demonstrated below.
+Visualized here are two example heat maps (all parameters and parameters 3 through 5), yet all possible ones are in the script and come to the screen by default after running the section 12.2. The heat map branches can be assigned with color of choice manually, as demonstrated below.
 
 ```
 heatm_MEMB_all       = clustergram(zscored_MEMB','RowLabels',parameters_MEMB','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
-heatm_MEMB_1thru4    = clustergram(zscored_MEMB_1thru4','RowLabels',parameters_1thru4','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
+heatm_MEMB_3thru5    = clustergram(zscored_MEMB_3thru5','RowLabels',parameters_1thru4','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
 
 ```
+*parameters 3-5*
+
+<img src="images/tbud_clustergram_all5_noColors.png" width="800">
+
 *all 5 parameters*
 
+<img src="images/tbud_clustergram_3thru5_noColors.png" width="800">
