@@ -165,6 +165,6 @@ for z = 1 : size(original_img_MEMB,3)
     imwrite(temp,'Segmentation_borders_membrane.tif','compression','none','WriteMode','append');
 ```
 
-<img src="images/AVG_Segmentation_borders_membrane.png" width="400">
+<img src="images/AVG_Segmentation_borders_membrane.png" width="370">
 
 
