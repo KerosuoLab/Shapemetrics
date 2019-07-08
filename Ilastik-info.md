@@ -1,8 +1,7 @@
 # Ilastik instructions
 
--[A. Before Ilastik](#A.-before-Ilastik-machine-learning---first-steps)
-
--[B. Ilastik machine learning](#B.ilastik-machine-learning)
+- [A. Before Ilastik](#A.-before-Ilastik-machine-learning---first-steps)
+- [B. Ilastik machine learning](#B.ilastik-machine-learning)
 
 ## A. Before Ilastik machine learning - first steps
 
