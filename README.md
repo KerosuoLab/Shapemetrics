@@ -257,7 +257,7 @@ parameters_1and3     = {'Cell Volume','Cell Ellipticity'};
 ### Create hierarchial clustering heat maps of the parameter values
 
 We use the matlab "clustergram" function to create hierarchial clustering heat maps for all the parameter values in each cell. Each column represents  individual cell whereas each row represents parameter value. Red indicates high value and blue low value.
-Visualized here are two example heat maps (all parameters and parameters 1 through 4), yet all possible ones are in the script and come to the screen by default after running the section 12.2.
+Visualized here are two example heat maps (all parameters and parameters 1 through 4), yet all possible ones are in the script and come to the screen by default after running the section 12.2. The heat map branches can be assigned with color of choice manually, as demonstrated below.
 
 ```
 heatm_MEMB_all       = clustergram(zscored_MEMB','RowLabels',parameters_MEMB','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
