@@ -317,18 +317,66 @@ cmp(4,:)  = [0.8,0.2,0.4]; % red pink
 cmp(5,:)  = [0.9,1,0];     % yellow
 cmp(6,:)  = [0.1,0.4,1];   % dark blue     
 cmp(7,:)  = [0.6,0.9,0.4]; % green
-cmp(8,:)  = [0.9,0,1];     % purple 
-cmp(9,:)  = [1,0.6,0];     % orange   
-cmp(10,:) = [0.9,0.3,0.7]; % pink                   
-cmp(11,:) = [1,0.7,0.2];   % diff. orange     
-cmp(12,:) = [0.9,0.1,0.4]; % dif dark red     
-cmp(13,:) = [0.5,1,0.6];   % different bright green    
-cmp(14,:) = [0.9,0.4,0.5]; % baby pink       
-cmp(15,:) = [0.8,0.2,0.4]; % red pink
-cmp(16,:) = [0.1,0.9,1];   % light blue  
 ```
 The way to access this color map is to use the following variable as an arrow that points the color user wants to start with. Default is to start with color number 1 (light blue):
 ```
 counter = 1;
 ```
-The counter is a loop variable which goes through the number of branches we chose previously. Next step is to create sub cluster  and fill it with the the cells in chosen branches (structure with list "cells_of_interest" in it). In addition, we show the original image as a z-projection on the screen. This will be background for the chosen cell group's  
+The counter is a loop variable which goes through the number of branches we chose previously. Next step is to create sub cluster  and fill it with the the cells in chosen branches (structure with list "cells_of_interest" in it). In addition, we show the original image as a z-projection on the screen. This will be background for the chosen cell group's cetroid dots:
+```
+sub_cluster_MEMB = struct('cells_of_interest',[]);
+CellIdentities_MEMB = cat(1,xp_MEMB.CellIdentities);
+range_MEMB = [0;cumsum(cat(1,xp_MEMB.SpatParamVals_MEMB_len))];
+figure
+imshow(max(original_img_MEMB,[],3),[]) 
+hold on
+```
+Loop through the number of branches, filling the created structure list with each cell group's cell identities. This part also plots all the cell centroids on top of the original image open on screen, each group is colored with different color:
+```
+for n = branches 
+        group_of_interest_MEMB = clusterGroup(heatm_to_visualize, n, 'col');
+        Col_Labels_MEMB = group_of_interest_MEMB.ColumnLabels; % here we have extracted some column labels from the clustergram
+        Double_Labels_MEMB = cell(0);
+        for i = 1 : length(Col_Labels_MEMB)
+            Double_Labels_MEMB{i} = str2double(Col_Labels_MEMB{i});
+        end
+        goi_MEMB = cell2mat(Double_Labels_MEMB);
+        cells_of_Interest_MEMB = CellIdentities_MEMB(goi_MEMB);
+        sub_cluster_MEMB(counter).cells_of_interest = cells_of_Interest_MEMB;
+    plot(xp_MEMB.stats_MEMB_all.stats_MEMB.Centroid(sub_cluster_MEMB(counter).cells_of_interest,1),...
+         xp_MEMB.stats_MEMB_all.stats_MEMB.Centroid(sub_cluster_MEMB(counter).cells_of_interest,2),'*','color',cmp(counter,:),'LineWidth',3); 
+    counter = counter+1;
+end
+hold off
+```
+Next, we search these groups of cells from the original label matrix:
+```
+for i = 1 : length(sub_cluster_MEMB)
+    template = sub_cluster_MEMB(i).cells_of_interest;
+    for j = 1 : length(sub_cluster_MEMB)
+        pattern = sub_cluster_MEMB(j).cells_of_interest;
+        if isempty(setdiff(pattern,template)) &&(i~=j)
+           sub_cluster_pruned_MEMB(i).cells_of_interest = setdiff(template,pattern); 
+        end
+    end
+    cells_of_Interest_MEMB = sub_cluster_pruned_MEMB(i).cells_of_interest; 
+    in_MEMB = intersect(find(cells_of_Interest_MEMB>range_MEMB(1)),find(cells_of_Interest_MEMB<range_MEMB(2)));      
+    template = xp_MEMB.CellIdentities; 
+    pattern = cells_of_Interest_MEMB(in_MEMB);
+    D = pdist2(template,pattern);
+    in_xp_num = find(min(D,[],2)==0);
+    id_MEMB = xp_MEMB.CellIdentities(in_xp_num);
+    sub_cluster_pruned_MEMB(i).cells_of_interest = id_MEMB; 
+end
+```
+Now, we create the final sub label which has the labels of the cells we are interested, but this time the labels are from the original label matrix. This way the spatial location of sub label cells are correct:
+```
+Label_sub_MEMB = 0*Final_Label_MEMB;   
+
+for c = 1 : length(sub_cluster_pruned_MEMB)
+    cells_of_Interest_MEMB = sub_cluster_pruned_MEMB(c).cells_of_interest;
+    for i = 1 : length(cells_of_Interest_MEMB) 
+        Label_sub_MEMB(Final_Label_MEMB == cells_of_Interest_MEMB(i)) = c;
+    end
+end
+```
