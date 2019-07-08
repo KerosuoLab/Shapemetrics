@@ -1,7 +1,7 @@
 # 3D-segmentation script
 
-- [Input data](###Input-data)
-- [Thresholding](###Thresholding)
+- [Input data](## Input-data)
+- [Thresholding](## Thresholding)
 
 First, make sure that you are in the right folder (where all your files are so that matlab can download the files in without errors.
 The folder can be changed from the small arrow on the top line of this window, where your current path is  showing. 
@@ -9,6 +9,7 @@ Run each section with command shift+enter. The most common error when trying to 
 which matlab states as follows: "the file xxx does not exist".
 Only change names etc. that are between these lines.       
 Anything outside the lines is not needed to change, and possible errors do not come from parts outside the lines.     
+
 ## Input data
 
 **Loading the Ilastik prediction map in**
@@ -52,6 +53,7 @@ imshow(sum(img_blur_MEMB,3),[])
 title('Blurred version of membrane image, using strel3D function') 
 ```
 <img src="images/tbud_original_img_blurred-zproj.png" width="400">
+
 ## Thresholding 
 
 **Pixel value thresholding**
