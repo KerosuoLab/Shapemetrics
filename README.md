@@ -29,7 +29,7 @@ title('Ilastik prediction map, z-projection, membrane ch')
 ```
 <img src="images/tbud_ilastik_predmap_zproj.png" width="400">
 
-**Loading the original z-stack image in and visualize it**
+**Loading the original z-stack image in and visualizing it**
 ```
 imagename_MEMB = 'imagename.tif';
 original_img_MEMB = 0*pred_MEMB;
