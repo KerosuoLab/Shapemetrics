@@ -286,22 +286,24 @@ heatm_MEMB_3thru5    = clustergram(zscored_MEMB_3thru5','RowLabels',parameters_1
 In the section 12.3 in our script the code is asking the user to type in the information of the heat map branch (i.e. certain group of cells that form cluster in the heat map) that user wants to map back into original image. First, write the heat map. For example:
 ```
 % 1. which heatmap? 
-heatm_to_visualize = heatm_MEMB_1thru3;
+heatm_to_visualize = heatm_MEMB_all;
 
 % 2. what is the corresponding stat_matrix of this heatmap?
-stats_matrix_to_visualize = stats_matrix_MEMB_1thru3;
+stats_matrix_to_visualize = stats_matrix_MEMB_all;
 ```
 Then, write the number of heat map branches that represent the groups of cells you want to map back to original image (the branch number comes visible when you click on the branch). In addition, write the name of the file that will have the groups of cells mapped back to original image. The file wil be saved as .tif z-stack to your disk. For example:
+
+*Let's select the branch (marked with red) from this heatmap we just created
+
+<img src="images/tbud_clustergram_all5_noColors_MARKED.png" width="600">
 
 ```
 % 3. which branches?
 branches = []; 
 
 % 4. what is going to be the name of the colored .tif image?
-name = '.tif';
+name = 'newgroup.tif';
 ```
-Ceren fill these above according to what example heat map are you putting here :)
-
 Next, we create an empty structure which we then fill in with the information given above (sections 12.5 and 12.6):
 ```
 xp_MEMB = struct('stats_MEMB_all',[],'SpatParamVals_MEMB',[],'CellIdentities',[],'Centroid',[],...
@@ -340,6 +342,9 @@ figure
 imshow(max(original_img_MEMB,[],3),[]) 
 hold on
 ```
+
+<img src="images/centroid_exmp.png" width="400">
+
 Loop through the number of branches, filling the created structure list with each cell group's cell identities. This part also plots all the cell centroids on top of the original image open on screen, each group is colored with different color:
 ```
 for n = branches 
@@ -404,3 +409,5 @@ for z = 1 : size(Label_sub_MEMB,3)
     imwrite(temp,name,'tiff','Compression','none','WriteMode','append');
 end
 ```
+
+<img src="images/colored_exmp.png" width="400">
