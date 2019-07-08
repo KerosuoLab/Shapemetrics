@@ -152,7 +152,18 @@ To visualize the label matrix, look at the variable "Final_Label_MEMB" in Matlab
 
 <img src="images/3D-rendition-VolumeViewer-kidney.jpeg" width="400">
 
-...or save the segmentation borders and label to disk and look at them in FIJI/ImageJ:
+...or save the label and segmentation borders to disk and look at them in FIJI/ImageJ:
+```
+for z = 1 : size(Final_Label_MEMB,3)                                
+    imwrite(Final_Label_MEMB(:,:,z),'Final_Label_membrane.tif','compression','none','writemode','append');
+end 
+for z = 1 : size(original_img_MEMB,3)                               
+    temp        = zeros(size(original_img_MEMB,1),size(original_img_MEMB,2),3,'uint8');
+    per         = Final_Label_MEMB(:,:,z) == 0;                             
+    temp(:,:,1) = original_img_MEMB(:,:,z);      % original image on the back on red
+    temp(:,:,3) = uint8(per)*100;                % Label borders on blue on top   
+    imwrite(temp,'Segmentation_borders_membrane.tif','compression','none','WriteMode','append');
+```
 
 <img src="images/AVG_Segmentation_borders_membrane.png" width="400">
 
