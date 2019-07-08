@@ -1,4 +1,7 @@
 # 3D-segmentation script
+
+- [create an anchor](###Input-data)
+
 First, make sure that you are in the right folder (where all your files are so that matlab can download the files in without errors.
 The folder can be changed from the small arrow on the top line of this window, where your current path is  showing. 
 Run each section with command shift+enter. The most common error when trying to run the first section is being in the wrong folder,
