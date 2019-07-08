@@ -282,24 +282,20 @@ heatm_MEMB_3thru5    = clustergram(zscored_MEMB_3thru5','RowLabels',parameters_1
 
 In the section 12.3 in our script the code is asking the user to type in the information of the heat map branch (i.e. certain group of cells that form cluster in the heat map) that user wants to map back into original image. First, write the heat map. For example:
 ```
-%================================================================%
 % 1. which heatmap? 
 heatm_to_visualize = heatm_MEMB_1thru3;
 
 % 2. what is the corresponding stat_matrix of this heatmap?
 stats_matrix_to_visualize = stats_matrix_MEMB_1thru3;
-%================================================================%
 ```
 Then, write the number of heat map branches that represent the groups of cells you want to map back to original image (the branch number comes visible when you click on the branch). In addition, write the name of the file that will have the groups of cells mapped back to original image. The file wil be saved as .tif z-stack to your disk. For example:
 
 ```
-%================================================================%
 % 3. which branches?
 branches = []; 
 
 % 4. what is going to be the name of the colored .tif image?
 name = '.tif';
-%================================================================%
 ```
 Ceren fill these above according to what example heat map are you putting here :)
 
