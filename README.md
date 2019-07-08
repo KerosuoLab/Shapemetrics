@@ -157,7 +157,9 @@ title('z-projection of size th prediction map seg4 MEMB, pixel values > 0.95')
 Now we choose the most optimal pixel thresholding value (variables named seg1_MEMB – seg4_MEMB) based on the images on section 4.3. (exapmles visualized above). Best value gives whole individual cells without the background (example with >0.95). In most cases, values 0.8 (seg4_MEMB), 0.9 (seg5_MEMB) and 0.95 (seg4_MEMB) are the best ones.
 Write the name of the value variable in between two lines in section 5 and run the section 5: Here we choose the value >0.95 i.e. the variable seg4_MEMB:
 ```
+%================================================================%
 seg_final = seg4_MEMB;
+%================================================================%
 ```
 
 ## Create label matrix with watershed
@@ -215,8 +217,9 @@ We check the volume distribution of the cells with histogram plot:
 ```
 figure                                                              
 hist(CellVolumes,100)
-
-title('Cell volumes, number of cells = 319 ')                       
+%================================================================%
+title('Cell volumes, number of cells = 319 ') %w rite here number of cells
+%================================================================%
 ylabel('Number of Cells with certain volume')
 xlabel('Cell Volume in voxels')
 ```
@@ -295,20 +298,24 @@ heatm_MEMB_3thru5    = clustergram(zscored_MEMB_3thru5','RowLabels',parameters_1
 
 In the section 12.3 in our script the code is asking the user to type in the information of the heat map branch (i.e. certain group of cells that form cluster in the heat map) that user wants to map back into original image. First, write the heat map. For example:
 ```
+%================================================================%
 % 1. which heatmap? 
 heatm_to_visualize = heatm_MEMB_1thru3;
 
 % 2. what is the corresponding stat_matrix of this heatmap?
 stats_matrix_to_visualize = stats_matrix_MEMB_1thru3;
+%================================================================%
 ```
 Then, write the number of heat map branches that represent the groups of cells you want to map back to original image (the branch number comes visible when you click on the branch). In addition, write the name of the file that will have the groups of cells mapped back to original image. The file wil be saved as .tif z-stack to your disk. For example:
 
 ```
+%================================================================%
 % 3. which branches?
 branches = []; 
 
 % 4. what is going to be the name of the colored .tif image?
 name = '.tif';
+%================================================================%
 ```
 Ceren fill these above according to what example heat map are you putting here :)
 
