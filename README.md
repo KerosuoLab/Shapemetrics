@@ -293,7 +293,7 @@ stats_matrix_to_visualize = stats_matrix_MEMB_all;
 ```
 Then, write the number of heat map branches that represent the groups of cells you want to map back to original image (the branch number comes visible when you click on the branch). In addition, write the name of the file that will have the groups of cells mapped back to original image. The file wil be saved as .tif z-stack to your disk. For example:
 
-*Let's select the branch (marked with red) from this heatmap we just created
+*Let's select the branch (marked with red) from this heatmap we just created*
 
 <img src="images/tbud_clustergram_all5_noColors_MARKED.png" width="600">
 
