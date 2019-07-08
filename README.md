@@ -57,6 +57,7 @@ title('Blurred version of membrane image, using strel3D function')
 ## Thresholding 
 
 **Pixel value thresholding**
+
 First, we set the pixel thresholding values. These values are pixel values between 0 and 1. To reach high accuracy in segmentation we introduce four different values in our code and later we choose the best of them. 
 ```
 seg1_MEMB = pred_MEMB>0.7;
