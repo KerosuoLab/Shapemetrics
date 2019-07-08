@@ -33,7 +33,7 @@ title('Ilastik prediction map, z-projection, membrane ch')
 
 **Loading the original z-stack image in and visualizing it**
 
-Original z-stack image is the membrane staining image. We use the same image as an input file to both Ilastik machine learning and our Matlab script. Make sure the format is .tif! (The conversion from microscope format stacks to tiff can be done in FJI/ImageJ)
+Original z-stack image is the membrane staining image. We use the same image as an input file to both Ilastik machine learning and our Matlab script. Make sure the format is .tif
 ```
 imagename_MEMB = 'imagename.tif';
 original_img_MEMB = 0*pred_MEMB;
@@ -174,6 +174,18 @@ for z = 1 : size(original_img_MEMB,3)
 
 <img src="images/STD_Segmentation_borders_membrane.png" width="300">
 
+## Calculation of volumetric parameter values for each cell
 
+Using the Matlab function "regionprops3" we extract the volumetric and spatial parameter values from the label matrix. We introduce all together 8 different parameters:
+```
+stats_MEMB = regionprops3(Final_Label_MEMB,'all');
 
-
+CellVolumes          = stats_MEMB.Volume;                   % cell volumes
+CellSurfaceAreas     = stats_MEMB.SurfaceArea;              % cell surface area
+CellCentroids        = stats_MEMB.Centroid;                 % cell centroids
+CellVolSurfAreaRatio = CellVolumes./CellSurfaceAreas;       % cell volume-surface area ratio
+CellEllipticity      = (stats_MEMB.PrincipalAxisLength(:,1) - stats_MEMB.PrincipalAxisLength(:,3))./(stats_MEMB.PrincipalAxisLength(:,1)); % ellipticity
+LongestAxis          = stats_MEMB.PrincipalAxisLength(:,1); % length of the longest axis (diameter of longest axis)
+CellElongation       = LongestAxis./((stats_MEMB.PrincipalAxisLength(:,2).*stats_MEMB.PrincipalAxisLength(:,3))./2);
+NumberOfCells        = size(stats_MEMB.Volume,1);           % number of cells
+```
