@@ -6,6 +6,7 @@
   - [Size thresholding](#size-thresholding)
 - [Watershed label matrix](#create-label-matrix-with-watershed)
 - [Extracting spatial parameters](#extracting-spatial-and-volumetric-parameter-values-for-each-cell)
+  - [Create parameter value heat maps](#create-hierarchial-clustering-heat-maps-of-the-parameter-values)
 
 When you open our script 3Dsegmentation_memb_final.m in matlab, make sure that you are in the right folder (where all your files are) so that matlab can download the files in without errors.
 The folder can be changed from the small arrow on the top line of matlab window, where your current path is showing or by moving the script itself to the right folder.
@@ -253,19 +254,21 @@ parameters_1and3and4 = {'Cell Volume','Cell Ellipticity','Cell Elongation'};
 parameters_1and4     = {'Cell Volume','Cell Elongation'};
 parameters_1and3     = {'Cell Volume','Cell Ellipticity'};
 ```
-### Hierarchial clustering heat maps of the parameter values
+### Create hierarchial clustering heat maps of the parameter values
 
 We use the matlab "clustergram" function to create hierarchial clustering heat maps for all the parameter values in each cell. Each column represents  individual cell whereas each row represents parameter value. Red indicates high value and blue low value.
+Visualized here are two example heat maps (all parameters and parameters 1 through 4), yet all possible ones are in the script and come to the screen by default after running the section 12.2.
 
 ```
 heatm_MEMB_all       = clustergram(zscored_MEMB','RowLabels',parameters_MEMB','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
-heatm_MEMB_1thru2    = clustergram(zscored_MEMB_1thru2','RowLabels',parameters_1thru2','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
-heatm_MEMB_1thru3    = clustergram(zscored_MEMB_1thru3','RowLabels',parameters_1thru3','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
 heatm_MEMB_1thru4    = clustergram(zscored_MEMB_1thru4','RowLabels',parameters_1thru4','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
-heatm_MEMB_2thru5    = clustergram(zscored_MEMB_2thru5','RowLabels',parameters_2thru5','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
-heatm_MEMB_3thru5    = clustergram(zscored_MEMB_3thru5','RowLabels',parameters_3thru5','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
-heatm_MEMB_4thru5    = clustergram(zscored_MEMB_4thru5','RowLabels',parameters_4thru5','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
-heatm_MEMB_1and3and4 = clustergram(zscored_MEMB_1and3and4','RowLabels',parameters_1and3and4','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
-heatm_MEMB_1and4     = clustergram(zscored_MEMB_1and4','RowLabels',parameters_1and4','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
-heatm_MEMB_1and3     = clustergram(zscored_MEMB_1and3','RowLabels',parameters_1and3','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
+
 ```
+
+*all 5 parameters*
+
+<img src="images/tbud_heatmap_all5_params.png" width="400">
+
+*parameters 1-4*
+
+<img src="images/tbud_heatmap_1thru4_params.png" width="400">
