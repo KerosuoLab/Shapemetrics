@@ -1,7 +1,7 @@
 # 3D-segmentation script
 
-- [Input data](##input-data)
-- [Thresholding](##thresholding)
+- [Input data](#input-data)
+- [Thresholding](#thresholding)
 
 When you open our script 3Dsegmentation_memb_final.m in matlab, make sure that you are in the right folder (where all your files are) so that matlab can download the files in without errors.
 The folder can be changed from the small arrow on the top line of matlab window, where your current path is showing or by moving the script itself to the right folder.
