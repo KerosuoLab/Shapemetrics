@@ -264,11 +264,11 @@ Visualized here are two example heat maps (all parameters and parameters 3 throu
 heatm_MEMB_all       = clustergram(zscored_MEMB','RowLabels',parameters_MEMB','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
 heatm_MEMB_3thru5    = clustergram(zscored_MEMB_3thru5','RowLabels',parameters_1thru4','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
 ```
-*parameters 3-5*
+*all 5 parameters*
 
 <img src="images/tbud_clustergram_all5_noColors.png" width="800">
 
-*all 5 parameters*
+*parameters 3-5*
 
 <img src="images/tbud_clustergram_3thru5_noColors.png" width="800">
 
