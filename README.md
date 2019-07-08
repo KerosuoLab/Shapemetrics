@@ -213,26 +213,26 @@ stats_matrix_MEMB_all(:,5) = LongestAxis;                % parameter 5: the leng
 zscored_MEMB               = zscore(stats_matrix_MEMB_all);  
 
 % 10.2) Knock out some parameters, six possibilities we may look:
-stats_matrix_MEMB_1thru2 = stats_matrix_MEMB_all(:,1:2); % parameters 1 and 2
-stats_matrix_MEMB_1thru3 = stats_matrix_MEMB_all(:,1:3); % parameters 1, 2 and 3   
-stats_matrix_MEMB_1thru4 = stats_matrix_MEMB_all(:,1:4); % parameters 1, 2, 3 and 4
-stats_matrix_MEMB_2thru5 = stats_matrix_MEMB_all(:,2:5); % parameters 2, 3, 4 and 5
-stats_matrix_MEMB_3thru5 = stats_matrix_MEMB_all(:,3:5); % parameters 3, 4 and 5
-stats_matrix_MEMB_4thru5 = stats_matrix_MEMB_all(:,4:5); % parameters 4 and 5
+stats_matrix_MEMB_1thru2 = stats_matrix_MEMB_all(:,1:2);        % parameters 1 and 2
+stats_matrix_MEMB_1thru3 = stats_matrix_MEMB_all(:,1:3);        % parameters 1, 2 and 3   
+stats_matrix_MEMB_1thru4 = stats_matrix_MEMB_all(:,1:4);        % parameters 1, 2, 3 and 4
+stats_matrix_MEMB_2thru5 = stats_matrix_MEMB_all(:,2:5);        % parameters 2, 3, 4 and 5
+stats_matrix_MEMB_3thru5 = stats_matrix_MEMB_all(:,3:5);        % parameters 3, 4 and 5
+stats_matrix_MEMB_4thru5 = stats_matrix_MEMB_all(:,4:5);        % parameters 4 and 5
 stats_matrix_MEMB_1and3and4 = stats_matrix_MEMB_all(:,[1,3,4]); % parameters 1, 3 and 4
-stats_matrix_MEMB_1and4 = stats_matrix_MEMB_all(:,[1,4]); % parameters 1 and 4
-stats_matrix_MEMB_1and3 = stats_matrix_MEMB_all(:,[1,3]); % parameters 1 and 3
+stats_matrix_MEMB_1and4 = stats_matrix_MEMB_all(:,[1,4]);       % parameters 1 and 4
+stats_matrix_MEMB_1and3 = stats_matrix_MEMB_all(:,[1,3]);       % parameters 1 and 3
 
 % 10.3) zscore all of these partial number of spatial parameters:
-zscored_MEMB_1thru2 = zscore(stats_matrix_MEMB_1thru2); 
-zscored_MEMB_1thru3 = zscore(stats_matrix_MEMB_1thru3);
-zscored_MEMB_1thru4 = zscore(stats_matrix_MEMB_1thru4);
-zscored_MEMB_2thru5 = zscore(stats_matrix_MEMB_2thru5);
-zscored_MEMB_3thru5 = zscore(stats_matrix_MEMB_3thru5);
-zscored_MEMB_4thru5 = zscore(stats_matrix_MEMB_4thru5);
+zscored_MEMB_1thru2    = zscore(stats_matrix_MEMB_1thru2); 
+zscored_MEMB_1thru3    = zscore(stats_matrix_MEMB_1thru3);
+zscored_MEMB_1thru4    = zscore(stats_matrix_MEMB_1thru4);
+zscored_MEMB_2thru5    = zscore(stats_matrix_MEMB_2thru5);
+zscored_MEMB_3thru5    = zscore(stats_matrix_MEMB_3thru5);
+zscored_MEMB_4thru5    = zscore(stats_matrix_MEMB_4thru5);
 zscored_MEMB_1and3and4 = zscore(stats_matrix_MEMB_1and3and4);
-zscored_MEMB_1and4 = zscore(stats_matrix_MEMB_1and4);
-zscored_MEMB_1and3 = zscore(stats_matrix_MEMB_1and3);
+zscored_MEMB_1and4     = zscore(stats_matrix_MEMB_1and4);
+zscored_MEMB_1and3     = zscore(stats_matrix_MEMB_1and3);
 ```
 We save the matrices to disk so that in case we want to visualize these parameters later, we do not have to run the scrpit from the beginning:
 ```
