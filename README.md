@@ -15,8 +15,10 @@ Anything outside the lines is not needed to change, and possible errors do not c
 ## Input data
 
 **Loading the Ilastik prediction map in**
+
+The Ilastik prediction map is .h5 format file which is exported from Ilastik machine learning program's pixel classification platform. It consists of cotinuous pixel values from 0 to 1 assigned based on the machine learning training done by user.
 ```
-ilastik_filename_MEMB = 'filename.h5';
+ilastik_filename_MEMB = 'filename.h5'; %write here the file name
 ilastik_file_MEMB = h5read(ilastik_filename_MEMB,'/exported_data/');
 pred_MEMB = squeeze(ilastik_file_MEMB(2,:,:,:));
 pred_MEMB = permute(pred_MEMB,[2,1,3]);
