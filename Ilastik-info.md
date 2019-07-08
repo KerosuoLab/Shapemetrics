@@ -5,7 +5,7 @@
 
 ## A. Before Ilastik - first steps
 
-The image file type used throughout our analysis is .tiff. However, raw microscope data rarely comes in .tif format by default. In addition, the stacks are often stored in a folder of individual 2D stacks instead of one 3D z-stack image. Convert the microscope file to .tif z-stack using the following steps:
+The image file type used throughout our analysis is .tif. However, raw microscope data rarely comes in .tif format by default. In addition, the stacks are often stored in a folder of individual 2D stacks instead of one 3D z-stack image. Convert the microscope file to .tif z-stack using the following steps:
 
 **1.** Open Fiji/ImageJ and drag the raw microscope image folder of individual stacks to the program to open it.
 
@@ -31,12 +31,18 @@ The goal of this part is to perform the machine learning based segmentation for 
 
 **5.** After selecting the features, move on to “Training” and add two labels by pressing “+Add Label”. With Label1 (red) mark the membrane and with Label2 (green) mark the background and the cell interiors as the image below demonstrates.
 
-<img 
+<img src="images/pixel-annotations.png" width="400">
 
 The result will be more accurate when the drawing is done precisely. After drawing, press “Live Update” to start the machine learning algorithm and visualize the results.
 
-**6.** After the live update is done, the image will have red and green overlay. This indicates the result of machine learning segmentation. If you think the result could be better, draw more labels to the image to improve the result.
+**6.** After the live update is done, the image will have red and green overlay (demonstrated below). This indicates the result of machine learning segmentation. If you think the result could be better, draw more labels to the image to improve the result.
 
-**7.** The uncertainty value can be checked by pressing the eye-icon next to “Uncertainty”. This will mark the pixels with uncertain segmentation result in turquoise. Reduce the amount of uncertainty by adding more labels.
+<img src="images/learning-overlay.png" width="400">
 
-**8.** After segmentation is finished, export the segmentation i.e. pixel value probability map from the section “Prediction export” and choosing “Export all”. This will generate .h5 file in the same folder as you original z-stack image.
+**7.** The uncertainty value can be checked by pressing the eye-icon next to “Uncertainty”. This will mark the pixels with uncertain segmentation result in turquoise (see the image below). Reduce the amount of uncertainty by adding more labels.
+
+<img src="images/uncertainty.png" width="400">
+
+**8.** After segmentation is finished, export the segmentation i.e. pixel value probability map from the section “Prediction export” and choosing “Export all”. This will generate .h5 file in the same folder as you original z-stack image. Below is shown the probability map in colors.
+
+<img src="images/segmentation-prediction-map.png.png" width="400">
