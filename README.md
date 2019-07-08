@@ -276,33 +276,59 @@ heatm_MEMB_3thru5    = clustergram(zscored_MEMB_3thru5','RowLabels',parameters_1
 
 In the section 12.3 in our script the code is asking the user to type in the information of the heat map branch (i.e. certain group of cells that form cluster in the heat map) that user wants to map back into original image. First, write the heat map. For example:
 ```
-% 1) which heatmap? 
+% 1. which heatmap? 
 heatm_to_visualize = heatm_MEMB_1thru3;
 
-% 2) what is the corresponding stat_matrix of this heatmap?
+% 2. what is the corresponding stat_matrix of this heatmap?
 stats_matrix_to_visualize = stats_matrix_MEMB_1thru3;
 ```
 Then, write the number of heat map branches that represent the groups of cells you want to map back to original image (the branch number comes visible when you click on the branch). In addition, write the name of the file that will have the groups of cells mapped back to original image. The file wil be saved as .tif z-stack to your disk. For example:
 
 ```
-% 3) which branches?
+% 3. which branches?
 branches = []; 
 
-% 4) what is going to be the name of the colored .tif image?
+% 4. what is going to be the name of the colored .tif image?
 name = '.tif';
 ```
 Ceren fill these above according to what example heat map are you putting here :)
 
-Next, we create an empty structure which we then fill in with the information given above:
+Next, we create an empty structure which we then fill in with the information given above (sections 12.5 and 12.6):
 ```
-% 12.5)
 xp_MEMB = struct('stats_MEMB_all',[],'SpatParamVals_MEMB',[],'CellIdentities',[],'Centroid',[],...
     'SpatParamVals_MEMB_len',[]);
-% 12.6)
+
 xp_MEMB.stats_MEMB_all         = load('stats_MEMB');
 xp_MEMB.Centroid               = xp_MEMB.stats_MEMB_all.stats_MEMB.Centroid;
 xp_MEMB.SpatParamVals_MEMB     = stats_matrix_to_visualize;
 xp_MEMB.CellIdentities         = find(xp_MEMB.stats_MEMB_all.stats_MEMB.Volume);
 xp_MEMB.SpatParamVals_t        = xp_MEMB.SpatParamVals_MEMB';
 xp_MEMB.SpatParamVals_MEMB_len = size(xp_MEMB.SpatParamVals_MEMB,1);
+
+get(heatm_to_visualize)
 ```
+Create a color map for the different cell groups:
+```
+cmp = jet(length(branches));
+cmp(1,:)  = [0.1,0.9,1];   % light blue    
+cmp(2,:)  = [0.8,0.6,0.9]; % lilac
+cmp(3,:)  = [0,0.8,0.8];   % cyan   
+cmp(4,:)  = [0.8,0.2,0.4]; % red pink   
+cmp(5,:)  = [0.9,1,0];     % yellow
+cmp(6,:)  = [0.1,0.4,1];   % dark blue     
+cmp(7,:)  = [0.6,0.9,0.4]; % green
+cmp(8,:)  = [0.9,0,1];     % purple 
+cmp(9,:)  = [1,0.6,0];     % orange   
+cmp(10,:) = [0.9,0.3,0.7]; % pink                   
+cmp(11,:) = [1,0.7,0.2];   % diff. orange     
+cmp(12,:) = [0.9,0.1,0.4]; % dif dark red     
+cmp(13,:) = [0.5,1,0.6];   % different bright green    
+cmp(14,:) = [0.9,0.4,0.5]; % baby pink       
+cmp(15,:) = [0.8,0.2,0.4]; % red pink
+cmp(16,:) = [0.1,0.9,1];   % light blue  
+```
+The way to access this color map is to use the following variable as an arrow that points the color user wants to start with. Default is to start with color number 1 (light blue):
+```
+counter = 1;
+```
+The counter is a loop variable which goes through the number of branches we chose previously. Next step is to create sub cluster  and fill it with the the cells in chosen branches (structure with list "cells_of_interest" in it). In addition, we show the original image as a z-projection on the screen. This will be background for the chosen cell group's  
