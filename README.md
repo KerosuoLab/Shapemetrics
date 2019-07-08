@@ -12,7 +12,14 @@
 When you open our script 3Dsegmentation_memb_final.m in matlab, make sure that you are in the right folder (where all your files are) so that matlab can download the files in without errors.
 The folder can be changed from the small arrow on the top line of matlab window, where your current path is showing or by moving the script itself to the right folder.
 Run each section with command shift+enter. The most common error when trying to run the first section is being in the wrong folder.
-Only change filenames and follow the code comments. Aything asked to change is between lines.       
+Only change filenames and follow the code comments. Aything asked to change is between lines like this:
+```
+%==============================================%
+Here change variable names and parameters asked
+%==============================================%
+
+Here, outside the lines, don't change anyting
+```
 Anything outside the lines is not needed to change, and possible errors do not come from parts outside the lines.     
 
 ## Input data
