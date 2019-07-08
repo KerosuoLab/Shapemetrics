@@ -19,5 +19,33 @@ figure
 imshow(sum(pred_MEMB,3),[])                                         
 title('Ilastik prediction map, z-projection, membrane ch')
 ```
-![](images/tbud_ilastik_predmap_zproj.png)
+<img src="images/tbud_ilastik_predmap_zproj.png" width="400">
+
+**Loading the original z-stack image in and visualize it**
+```
+imagename_MEMB = 'imagename.tif';
+original_img_MEMB = 0*pred_MEMB;
+for z = 1 : size(pred_MEMB,3) 
+  temp = imread(imagename_MEMB,z);
+  original_img_MEMB(:,:,z) = temp(:,:,1);
+end
+
+figure                                                              
+imshow(max(original_img_MEMB,[],3),[])                             
+title('max-projection, raw membrane image')                         
+figure
+imshow(sum(original_img_MEMB,3),[])
+title('z-projection, raw membrane image')
+```
+<img src="images/original_img_zproj.png" width="400">
+
+Next, we create a blurred version of the membrane z-stack image and visualize it as summed z-projection. This will help to connect any gaps in the staining:
+```
+img_blur_MEMB = imdilate(original_img_MEMB,strel3D('sphere',3));
+figure                                                              
+imshow(sum(img_blur_MEMB,3),[])                                     
+title('Blurred version of membrane image, using strel3D function')  
+```
+<img src="images/tbud_original_img_blurred-zproj.png" width="400">
+
 
