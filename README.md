@@ -386,7 +386,7 @@ for c = 1 : length(sub_cluster_pruned_MEMB)
     end
 end
 ```
-Last step is to save the colored sub label to disk as .tif format z-stack:
+Last step is to save the colored sub label to disk as .tif format z-stack. This z-stack is then interleaved with original image z-stack in FIJI/ImageJ and converted into average intensity z-projection resulting image below.
 ```
 for z = 1 : size(Label_sub_MEMB,3)
     temp  = zeros(size(Label_sub_MEMB,1),size(Label_sub_MEMB,2),3,'uint8');
