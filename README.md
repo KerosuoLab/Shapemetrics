@@ -43,8 +43,7 @@ Next, we create a blurred version of the membrane z-stack image and visualize it
 ```
 img_blur_MEMB = imdilate(original_img_MEMB,strel3D('sphere',3));
 figure                                                              
-imshow(sum(img_blur_MEMB,3),[])                                     
-title('Blurred version of membrane image, using strel3D function')  
+imshow(sum(img_blur_MEMB,3),[])                                      
 ```
 <img src="images/tbud_original_img_blurred-zproj.png" width="400">
 
