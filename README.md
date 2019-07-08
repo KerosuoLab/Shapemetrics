@@ -53,7 +53,8 @@ title('Blurred version of membrane image, using strel3D function')
 ```
 <img src="images/tbud_original_img_blurred-zproj.png" width="400">
 ## Thresholding 
-**Pixel value and size thresholding**
+
+**Pixel value thresholding**
 First, we set the pixel thresholding values. These values are pixel values between 0 and 1. To reach high accuracy in segmentation we introduce four different values in our code and later we choose the best of them. 
 ```
 seg1_MEMB = pred_MEMB>0.7;
@@ -87,6 +88,7 @@ imshow(sum(single(seg4_MEMB),3),[]);
 title('seg4 MEMB (membrane ch), ilastik prediction map th>0.95')   
 ```
 <img src="images/tbud_ilastik_predmap_th95.png" width="400">
+**Size thresholding**
 
 The next step is to run the size thresholding part. In section 4.3 of the code, we use the pixel value thresholding variables and restrict the size of grouped pixels (i.e. cells and background) to extract the background leaving us with only individual cells. We do the size thresholding with same size restrictions to all pixel value thresholding variables (generated in section 4) to compare the results between pixel values and to choose the best of them. Try first with default values (min: 100 and max: 200000) and if the image shows no cells, reduce the max value by removing one zero. Run the sections 4 and 4.3 again. On contrary, if the cells are visible but so is the background, increase the max value by adding one zero and run the sections 4 and 4.3 again.
 
