@@ -160,7 +160,7 @@ seed_MEMB = imimposemin(img_blur_MEMB,seg_final);
 ```
 The label matrix contains information and labels of each idividual cell from the watershed segmentation. We use the machine learning segmentation tool (Ilastik) together with watershed algorithm to obtain as accurate and unbiased segmentation as possible. Below we create the label matrix and run it through the same size thresholding limits as previously with the pixel values:
 ```
-Label_MEMB = watershed(seed_MEMB);
+Label_MEMB  = watershed(seed_MEMB);
 Label2_MEMB = bwareaopen(Label_MEMB,100);                   % min                   
 Label2_MEMB = Label2_MEMB - bwareaopen(Label_MEMB,15000);   % max
 Final_Label_MEMB = bwlabeln(Label2_MEMB); 
