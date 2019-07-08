@@ -95,7 +95,7 @@ title('seg4 MEMB (membrane ch), ilastik prediction map th>0.95')
 
 The next step is to run the size thresholding part. In section 4.3 of the code, we use the pixel value thresholding variables and restrict the size of grouped pixels (i.e. cells and background) to extract the background leaving us with only individual cells. We do the size thresholding with same size restrictions to all pixel value thresholding variables (generated in section 4) to compare the results between pixel values and to choose the best of them. Try first with default values (min: 100 and max: 200000) and if the image shows no cells, reduce the max value by removing one zero. Run the sections 4 and 4.3 again. On contrary, if the cells are visible but so is the background, increase the max value by adding one zero and run the sections 4 and 4.3 again.
 
-Below are visualized the same three pixel values (>0.8. >0.9, >0,95) with size thresholding:
+Below are visualized the same three pixel values (>0.8. >0.9, >0.95) with size thresholding:
 
 *For threshold value >0.8*
 ```
@@ -126,4 +126,34 @@ imshow(sum(single(seg4_MEMB),3),[]);
 title('z-projection of size th prediction map seg4 MEMB, pixel values > 0.95')
 ```
 <img src="images/tbud_ilastik_predmap_th95_sz_th.png" width="400">
+
+Now we choose the most optimal pixel thresholding value (variables named seg1_MEMB – seg4_MEMB) based on the images on section 4.3. (exapmles visualized above). Best value gives whole individual cells without the background (example with >0.95). In most cases, values 0.8 (seg4_MEMB), 0.9 (seg5_MEMB) and 0.95 (seg4_MEMB) are the best ones.
+Write the name of the value variable in between two lines in section 5 and run the section 5: Here we choose the value >0.95 i.e. the variable seg4_MEMB:
+```
+seg_final = seg4_MEMB;
+```
+
+## Create label matrix with watershed
+
+**Create the seed for watershed algortihm**
+
+In the section 6 of the script we use the blurred version of original membrane z-stack image together with the chosen pixel value thresholding to create seed for watershed algorithm. This is done by using the matlab function "imimposemin":
+```
+seed_MEMB = imimposemin(img_blur_MEMB,seg_final);
+```
+The label matrix contains information and labels of each idividual cell from the watershed segmentation. We use the machine learning segmentation tool (Ilastik) together with watershed algorithm to obtain as accurate and unbiased segmentation as possible. Below we create the label matrix and run it through the same size thresholding limits as previously with the pixel values:
+```
+Label_MEMB = watershed(seed_MEMB);
+Label2_MEMB = bwareaopen(Label_MEMB,200);                    % min                   
+Label2_MEMB = Label2_MEMB - bwareaopen(Label_MEMB,200000);   % max 
+Final_Label_MEMB = bwlabeln(Label2_MEMB); 
+```
+To visualize the label matrix, look at the variable "Final_Label_MEMB" in Matlab app Volume viewer...
+
+<img src="images/3D-rendition-VolumeViewer-kidney.jpeg" width="400">
+
+...or save the segmentation borders and label to disk and look at them in FIJI/ImageJ:
+
+<img src="images/AVG_Segmentation_borders_membrane.png" width="400">
+
 
