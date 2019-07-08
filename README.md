@@ -59,6 +59,7 @@ seg6_MEMB = pred_MEMB>0.95;
 ```
 In our code, we go through all these values by visualizing them one by one (code section 4.2). Here we show two examples
  of visualization
+ 
 *For threshold value >0.9*
  ```
  figure                                                              
