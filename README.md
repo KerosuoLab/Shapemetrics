@@ -1,7 +1,7 @@
 # 3D-segmentation script
 
-- [Input data](## Input-data)
-- [Thresholding](## Thresholding)
+- [Input data](##Input-data)
+- [Thresholding](##Thresholding)
 
 First, make sure that you are in the right folder (where all your files are so that matlab can download the files in without errors.
 The folder can be changed from the small arrow on the top line of this window, where your current path is  showing. 
