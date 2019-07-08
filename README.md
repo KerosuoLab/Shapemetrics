@@ -189,3 +189,13 @@ LongestAxis          = stats_MEMB.PrincipalAxisLength(:,1); % length of the long
 CellElongation       = LongestAxis./((stats_MEMB.PrincipalAxisLength(:,2).*stats_MEMB.PrincipalAxisLength(:,3))./2);
 NumberOfCells        = size(stats_MEMB.Volume,1);           % number of cells
 ```
+We check the volume distribution of the cells with histogram plot:
+```
+figure                                                              
+hist(CellVolumes,100)
+
+title('Cell volumes, number of cells = 319 ')                       
+ylabel('Number of Cells with certain volume')
+xlabel('Cell Volume in voxels')
+```
+<img src="images/tbud_volumes_histogram.jpeg" width="400">
