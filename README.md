@@ -293,3 +293,16 @@ name = '.tif';
 ```
 Ceren fill these above according to what example heat map are you putting here :)
 
+Next, we create an empty structure which we then fill in with the information given above:
+```
+% 12.5)
+xp_MEMB = struct('stats_MEMB_all',[],'SpatParamVals_MEMB',[],'CellIdentities',[],'Centroid',[],...
+    'SpatParamVals_MEMB_len',[]);
+% 12.6)
+xp_MEMB.stats_MEMB_all         = load('stats_MEMB');
+xp_MEMB.Centroid               = xp_MEMB.stats_MEMB_all.stats_MEMB.Centroid;
+xp_MEMB.SpatParamVals_MEMB     = stats_matrix_to_visualize;
+xp_MEMB.CellIdentities         = find(xp_MEMB.stats_MEMB_all.stats_MEMB.Volume);
+xp_MEMB.SpatParamVals_t        = xp_MEMB.SpatParamVals_MEMB';
+xp_MEMB.SpatParamVals_MEMB_len = size(xp_MEMB.SpatParamVals_MEMB,1);
+```
