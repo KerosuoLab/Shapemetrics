@@ -2,6 +2,9 @@
 
 - [Input data](#input-data)
 - [Thresholding](#thresholding)
+  - [Pixel thresholding](#pixel-value-thresholding)
+  - [Size thresholding](#size-thresholding)
+- [Watershed label matrix](#create-label-matrix-with-watershed)
 
 When you open our script 3Dsegmentation_memb_final.m in matlab, make sure that you are in the right folder (where all your files are) so that matlab can download the files in without errors.
 The folder can be changed from the small arrow on the top line of matlab window, where your current path is showing or by moving the script itself to the right folder.
@@ -55,7 +58,7 @@ title('Blurred version of membrane image, using strel3D function')
 
 ## Thresholding 
 
-**Pixel value thresholding**
+###Pixel value thresholding
 
 First, we set the pixel thresholding values. These values are pixel values between 0 and 1. To reach high accuracy in segmentation we introduce four different values in our code and later we choose the best of them. 
 ```
@@ -91,7 +94,7 @@ title('seg4 MEMB (membrane ch), ilastik prediction map th>0.95')
 ```
 <img src="images/tbud_ilastik_predmap_th95.png" width="400">
 
-**Size thresholding**
+###Size thresholding
 
 The next step is to run the size thresholding part. In section 4.3 of the code, we use the pixel value thresholding variables and restrict the size of grouped pixels (i.e. cells and background) to extract the background leaving us with only individual cells. We do the size thresholding with same size restrictions to all pixel value thresholding variables (generated in section 4) to compare the results between pixel values and to choose the best of them. Try first with default values (min: 100 and max: 200000) and if the image shows no cells, reduce the max value by removing one zero. Run the sections 4 and 4.3 again. On contrary, if the cells are visible but so is the background, increase the max value by adding one zero and run the sections 4 and 4.3 again.
 
