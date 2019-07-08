@@ -390,3 +390,18 @@ for c = 1 : length(sub_cluster_pruned_MEMB)
     end
 end
 ```
+Last step is to save the colored sub label to disk as .tif format z-stack:
+```
+for z = 1 : size(Label_sub_MEMB,3)
+    temp  = zeros(size(Label_sub_MEMB,1),size(Label_sub_MEMB,2),3,'uint8');
+    for c = 1 : length(sub_cluster_pruned_MEMB)
+        tmp = Label_sub_MEMB(:,:,z);
+        tmp(tmp~=c) = 0;
+        tmp = tmp>0;
+        temp(:,:,1) = uint8(cmp(c,1).*255*double(tmp))+temp(:,:,1);
+        temp(:,:,2) = uint8(cmp(c,2).*255*double(tmp))+temp(:,:,2);
+        temp(:,:,3) = uint8(cmp(c,3).*255*double(tmp))+temp(:,:,3);
+    end
+    imwrite(temp,name,'tiff','Compression','none','WriteMode','append');
+end
+```
