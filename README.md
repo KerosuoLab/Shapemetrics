@@ -7,6 +7,7 @@
 - [Watershed label matrix](#create-label-matrix-with-watershed)
 - [Extracting spatial parameters](#extracting-spatial-and-volumetric-parameter-values-for-each-cell)
   - [Create parameter value heat maps](#create-hierarchial-clustering-heat-maps-of-the-parameter-values)
+  - [Visualization](#vizualization:-map-the-chosen-groups-of-cells-back-to-their-spatial-context)
 
 When you open our script 3Dsegmentation_memb_final.m in matlab, make sure that you are in the right folder (where all your files are) so that matlab can download the files in without errors.
 The folder can be changed from the small arrow on the top line of matlab window, where your current path is showing or by moving the script itself to the right folder.
@@ -262,7 +263,6 @@ Visualized here are two example heat maps (all parameters and parameters 3 throu
 ```
 heatm_MEMB_all       = clustergram(zscored_MEMB','RowLabels',parameters_MEMB','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
 heatm_MEMB_3thru5    = clustergram(zscored_MEMB_3thru5','RowLabels',parameters_1thru4','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
-
 ```
 *parameters 3-5*
 
@@ -271,3 +271,10 @@ heatm_MEMB_3thru5    = clustergram(zscored_MEMB_3thru5','RowLabels',parameters_1
 *all 5 parameters*
 
 <img src="images/tbud_clustergram_3thru5_noColors.png" width="800">
+
+### Vizualization: map the chosen groups of cells back to their spatial context
+
+In the section 12.3 in our script the code is asking the user to type in the information of the heat map branch (i.e. certain group of cells that form cluster in the heat map) tha user wants to map back into original image. First, write the heat map. For example, heat map "heatm_MEMB_1thru3":
+```
+% 1) which heatmap? 
+heatm_to_visualize = heatm_MEMB_1and3;
