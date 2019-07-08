@@ -45,4 +45,4 @@ The result will be more accurate when the drawing is done precisely. After drawi
 
 **8.** After segmentation is finished, export the segmentation i.e. pixel value probability map from the section “Prediction export” and choosing “Export all”. This will generate .h5 file in the same folder as you original z-stack image. Below is shown the probability map in colors.
 
-<img src="images/segmentation-prediction-map.png.png" width="400">
+<img src="images/segmentation-prediction-map.png" width="400">
