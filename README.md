@@ -299,7 +299,7 @@ Then, write the number of heat map branches that represent the groups of cells y
 
 ```
 % 3. which branches?
-branches = []; 
+branches = [307]; 
 
 % 4. what is going to be the name of the colored .tif image?
 name = 'newgroup.tif';
@@ -321,15 +321,15 @@ get(heatm_to_visualize)
 Create a color map for the different cell groups:
 ```
 cmp = jet(length(branches));
-cmp(1,:)  = [0.1,0.9,1];   % light blue    
+cmp(1,:)  = [0.1,0.4,1];   % dark blue   
 cmp(2,:)  = [0.8,0.6,0.9]; % lilac
 cmp(3,:)  = [0,0.8,0.8];   % cyan   
 cmp(4,:)  = [0.8,0.2,0.4]; % red pink   
 cmp(5,:)  = [0.9,1,0];     % yellow
-cmp(6,:)  = [0.1,0.4,1];   % dark blue     
+cmp(6,:)  = [0.1,0.9,1];   % light blue    
 cmp(7,:)  = [0.6,0.9,0.4]; % green
 ```
-The way to access this color map is to use the following variable as an arrow that points the color user wants to start with. Default is to start with color number 1 (light blue):
+The way to access this color map is to use the following variable as an arrow that points the color user wants to start with. Default is to start with color number 1 (dark blue):
 ```
 counter = 1;
 ```
@@ -343,7 +343,7 @@ imshow(max(original_img_MEMB,[],3),[])
 hold on
 ```
 
-<img src="images/centroid_exmp.png" width="400">
+<img src="images/centroid_exmp.png" width="300">
 
 Loop through the number of branches, filling the created structure list with each cell group's cell identities. This part also plots all the cell centroids on top of the original image open on screen, each group is colored with different color:
 ```
@@ -410,4 +410,4 @@ for z = 1 : size(Label_sub_MEMB,3)
 end
 ```
 
-<img src="images/colored_exmp.png" width="400">
+<img src="images/colored_exmp.png" width="300">
