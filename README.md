@@ -235,15 +235,15 @@ stats_matrix_1and4     = stats_matrix_all(:,[1,4]);    % parameters 1 and 4
 stats_matrix_1and3     = stats_matrix_all(:,[1,3]);    % parameters 1 and 3
 
 % 10.3) zscore all of these partial number of spatial parameters:
-zscored_MEMB_1thru2    = zscore(stats_matrix_MEMB_1thru2); 
-zscored_MEMB_1thru3    = zscore(stats_matrix_MEMB_1thru3);
-zscored_MEMB_1thru4    = zscore(stats_matrix_MEMB_1thru4);
-zscored_MEMB_2thru5    = zscore(stats_matrix_MEMB_2thru5);
-zscored_MEMB_3thru5    = zscore(stats_matrix_MEMB_3thru5);
-zscored_MEMB_4thru5    = zscore(stats_matrix_MEMB_4thru5);
-zscored_MEMB_1and3and4 = zscore(stats_matrix_MEMB_1and3and4);
-zscored_MEMB_1and4     = zscore(stats_matrix_MEMB_1and4);
-zscored_MEMB_1and3     = zscore(stats_matrix_MEMB_1and3);
+zscored_1thru2    = zscore(stats_matrix_1thru2); 
+zscored_1thru3    = zscore(stats_matrix_1thru3);
+zscored_1thru4    = zscore(stats_matrix_1thru4);
+zscored_2thru5    = zscore(stats_matrix_2thru5);
+zscored_3thru5    = zscore(stats_matrix_3thru5);
+zscored_4thru5    = zscore(stats_matrix_4thru5);
+zscored_1and3and4 = zscore(stats_matrix_1and3and4);
+zscored_1and4     = zscore(stats_matrix_1and4);
+zscored_1and3     = zscore(stats_matrix_1and3);
 ```
 We save the matrices to disk so that in case we want to visualize these parameters later, we do not have to run the scrpit from the beginning:
 ```
