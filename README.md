@@ -46,7 +46,7 @@ title('Ilastik prediction map, z-projection')
 Original z-stack image is the membrane staining image. We use the same image as an input file to both Ilastik machine learning and our Matlab script. Make sure the format is .tif
 ```
 imagename    = 'imagename.tif';
-original_img = 0*pred_MEMB;
+original_img = 0*pred;
 for z = 1 : size(pred,3) 
   temp = imread(imagename,z);
   original_img(:,:,z) = temp(:,:,1);
