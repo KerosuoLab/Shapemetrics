@@ -29,7 +29,7 @@ The goal of this part is to perform the machine learning based segmentation for 
 
 **4.** From “Feature Selection” we chose all the features in our pipeline. 
 
-**5.** After selecting the features, move on to “Training” and add two labels by pressing “+Add Label”. With Label1 (red) mark the membrane and with Label2 (green) mark the background and the cell interiors as the image below demonstrates.
+**5.** After selecting the features, move on to “Training” and add two labels by pressing “+Add Label”. With Label 1 mark the membrane and with Label 2 mark the background and the cell interiors as the image below demonstrates.
 
 <img src="images/pixel-annotations.png" width="400">
 
