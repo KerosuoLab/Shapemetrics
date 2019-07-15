@@ -51,13 +51,10 @@ for z = 1 : size(pred,3)
   temp = imread(imagename,z);
   original_img(:,:,z) = temp(:,:,1);
 end
-
-figure                                                              
-imshow(max(original_img,[],3),[])                             
-title('max-projection, raw membrane image')                         
+                    
 figure
 imshow(sum(original_img,3),[])
-title('z-projection, raw image')
+title('z-projection, raw membrane image')
 ```
 <img src="images/tbud_original_img_zproj.png" width="400">
 
