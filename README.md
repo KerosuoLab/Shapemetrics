@@ -37,7 +37,7 @@ Let's visualize prediction map as z-projection
 ```
 figure                                                              
 imshow(sum(pred,3),[])                                         
-title('Ilastik prediction map, z-projection')
+title('Ilastik prediction map, z-projection, membrane ch')
 ```
 <img src="images/tbud_ilastik_predmap_zproj.png" width="400">
 
@@ -54,7 +54,7 @@ end
 
 figure                                                              
 imshow(max(original_img,[],3),[])                             
-title('max-projection, raw image')                         
+title('max-projection, raw membrane image')                         
 figure
 imshow(sum(original_img,3),[])
 title('z-projection, raw image')
