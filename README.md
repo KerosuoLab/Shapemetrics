@@ -88,7 +88,7 @@ In our code, we go through all these values by visualizing them one by one (code
  ```
  figure                                                              
 imshow(sum(single(seg2),3),[]);                                
-title('seg2, ilastik prediction map th>0.8')     
+title('seg2 MEMB (membrane ch), ilastik prediction map th>0.8')     
 ```
 <img src="images/tbud_ilastik_predmap_th80.png" width="400">
 
@@ -96,7 +96,7 @@ title('seg2, ilastik prediction map th>0.8')
  ```
  figure                                                              
 imshow(sum(single(seg3),3),[]);                                
-title('seg3, ilastik prediction map th>0.9')     
+title('seg3 MEMB (membrane ch), ilastik prediction map th>0.9')     
 ```
 <img src="images/tbud_ilastik_predmap_th90.png" width="400">
 
@@ -104,7 +104,7 @@ title('seg3, ilastik prediction map th>0.9')
 ```
 figure                                                                                 
 imshow(sum(single(seg4),3),[]);                                
-title('seg4, ilastik prediction map th>0.95')   
+title('seg4 MEMB (membrane ch), ilastik prediction map th>0.95')   
 ```
 <img src="images/tbud_ilastik_predmap_th95.png" width="400">
 
