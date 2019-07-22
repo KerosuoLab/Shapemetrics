@@ -9,31 +9,31 @@
   - [Create parameter value heat maps](#create-hierarchial-clustering-heat-maps-of-the-parameter-values)
   - [Visualization](#vizualization---map-the-chosen-groups-of-cells-back-to-their-spatial-context)
 
-When you open our script segmentation3D_script.m in matlab, make sure that you are in the right folder (where all your files are) so that matlab can download the files in without errors.
-The folder can be changed from the small arrow on the top line of matlab window, where your current path is showing or by moving the script itself to the right folder.
-Run each section with command shift+enter. The most common error when trying to run the first section is being in the wrong folder.
-Only change filenames and follow the code comments. Aything asked to change is between lines like this:
+When you open our script segmentation3D_script.m in Matlab, make sure that you are in the correct folder (where all your files are) so that Matlab can load the files without errors.
+The folder can be changed from the small arrow on the top line of the Matlab window where your current path is showing or by moving the script itself to the correct folder.
+Run each section with command shift+enter.
+Only change filenames and follow the code comments. Anything requiring change is between lines like this:
 ```
 %==============================================%
-Here change variable names and parameters asked
+Change variable names and parameters here
 %==============================================%
 
-Here, outside the lines, don't change anything
+Don't change anything here outside the lines
 ```
-Anything outside the lines is not needed to change, and possible errors do not come from parts outside the lines. Lines are only in the script file, not in this example file.    
+There is no need to change anything outside the lines, and possible errors do not come from parts outside the lines. Lines are only in the script file, not in this example file.    
 
 ## Input data
 
-**Loading the Ilastik prediction map in**
+**Load the Ilastik prediction map**
 
-The Ilastik prediction map is .h5 format file which is exported from Ilastik machine learning program's pixel classification platform. It consists of cotinuous pixel values from 0 to 1 assigned based on the machine learning training done by user.
+The Ilastik prediction map file in .h5 format is exported from Ilastik machine learning program's pixel classification platform. It consists of continuous pixel values from 0 to 1, assigned based on the machine learning training done by the user.
 ```
 ilastik_filename = 'filename.h5'; % write here the file name
 ilastik_file     = h5read(ilastik_filename,'/exported_data/');
 pred = squeeze(ilastik_file(2,:,:,:));
 pred = permute(pred,[2,1,3]);
 ```
-Let's visualize prediction map as z-projection
+Visualize the prediction map as a z-projection:
 ```
 figure                                                              
 imshow(sum(pred,3),[])                                         
@@ -41,9 +41,9 @@ title('Ilastik prediction map, z-projection, membrane ch')
 ```
 <img src="images/tbud_ilastik_predmap_zproj.png" width="400">
 
-**Loading the original z-stack image in and visualizing it**
+**Load and visualize the original z-stack image**
 
-Original z-stack image is the membrane staining image. We use the same image as an input file to both Ilastik machine learning and our Matlab script. Make sure the format is .tif
+The original z-stack image is the membrane staining image. We use the same image as an input file to both Ilastik machine learning and our Matlab script. Make sure the format is .tif.
 ```
 imagename    = 'imagename.tif';
 original_img = 0*pred;
@@ -58,7 +58,7 @@ title('z-projection, raw membrane image')
 ```
 <img src="images/tbud_original_img_zproj.png" width="400">
 
-Next, we create a blurred version of the membrane z-stack image and visualize it as summed z-projection. This will help to connect any gaps in the staining:
+Next, create a blurred version of the membrane z-stack image and visualize it as a summed z-projection. This will help connect any gaps in the staining.
 ```
 img_blur = imdilate(original_img,strel3D('sphere',3));
 figure                                                              
@@ -71,15 +71,15 @@ title('Blurred version of membrane image, using strel3D function')
 
 ### Pixel value thresholding
 
-First, we set the pixel thresholding values. These values are pixel values between 0 and 1. To reach high accuracy in segmentation we introduce four different values in our code and later we choose the best of them. 
+First, we set the pixel thresholding values. These values are pixel values between 0 and 1. To reach high accuracy in segmentation, we introduce four different values and then choose the value which returns the best result. 
 ```
 seg1 = pred>0.7;
 seg2 = pred>0.8;
 seg3 = pred>0.9;
 seg4 = pred>0.95;
 ```
-In our code, we go through all these values by visualizing them one by one (code section 4.2). Here we show two examples
- of visualization
+Go through all these values by visualizing them one by one (code Section 4.2). Here we show three examples
+ of visualization:
  
 *For threshold value >0.8*
  ```
@@ -107,9 +107,9 @@ title('seg4 MEMB (membrane ch), ilastik prediction map th>0.95')
 
 ### Size thresholding
 
-The next step is to run the size thresholding part. In section 4.3 of the code, we use the pixel value thresholding variables and restrict the size of grouped pixels (i.e. cells and background) to extract the background leaving us with only individual cells. We do the size thresholding with same size restrictions to all pixel value thresholding variables (generated in section 4) to compare the results between pixel values and to choose the best of them. Try first with default values (min: 100 and max: 15000) and if the image shows no cells, reduce the max value by removing one zero. Run the sections 4 and 4.3 again. On contrary, if the cells are visible but so is the background, increase the max value by adding one zero and run the sections 4 and 4.3 again.
+The next step is size thresholding. In Section 4.3 of the code, we use the pixel value thresholding variables and restrict the size of grouped pixels (i.e. cells and background) to extract the background, leaving us with only individual cells. We do the size thresholding with same size restrictions to all pixel value thresholding variables (generated in Section 4) to compare the results between pixel values and choose the best of them. First, try using default values (min: 100 and max: 15000), but if the image shows no cells, reduce the max value by removing one zero. Run Sections 4 and 4.3 again. On the contrary, if the background is visible in addition to the cells, increase the max value by adding one zero and run Sections 4 and 4.3 again.
 
-Below are visualized the same three pixel values (>0.8. >0.9, >0.95) with size thresholding:
+The same three pixel values (>0.8. >0.9, >0.95) are visualized below with size thresholding:
 
 *For threshold value >0.8*
 ```
@@ -141,21 +141,21 @@ title('z-projection of size th prediction map seg4, pixel values > 0.95')
 ```
 <img src="images/tbud_ilastik_predmap_th95_sz_th.png" width="400">
 
-Now we choose the most optimal pixel thresholding value (variables named seg1_MEMB – seg4_MEMB) based on the images on section 4.3. (exapmles visualized above). Best value gives whole individual cells without the background (example with >0.95). In most cases, values 0.8 (seg4_MEMB), 0.9 (seg5_MEMB) and 0.95 (seg4_MEMB) are the best ones.
-Write the name of the value variable in between two lines in section 5 and run the section 5: Here we choose the value >0.95 i.e. the variable seg4_MEMB:
+Now choose the optimal pixel thresholding value (variables named seg1_MEMB – seg4_MEMB) based on the images from Section 4.3 (examples visualized above). The best value gives whole, individual cells without background (example with >0.95). In most cases, values 0.8 (seg4_MEMB), 0.9 (seg5_MEMB), and 0.95 (seg4_MEMB) are the best.
+Write the name of the value variable inbetween two lines in Section 5, and run Section 5; Here we chose the value >0.95 (i.e. the variable seg4_MEMB):
 ```
 seg_final = seg4;
 ```
 
 ## Watershed label matrix
 
-**Create the seed for watershed algortihm**
+**Create the seed for the watershed algorithm**
 
-In the section 6 of the script we use the blurred version of original membrane z-stack image together with the chosen pixel value thresholding to create seed for watershed algorithm. This is done by using the matlab function "imimposemin":
+In Section 6 of the script we use the blurred version of the original membrane z-stack image together with the chosen pixel value threshold to create the seed for the watershed algorithm. This is done by using the Matlab function "imimposemin":
 ```
 seed = imimposemin(img_blur,seg_final);
 ```
-The label matrix contains information and labels of each idividual cell from the watershed segmentation. We use the machine learning segmentation tool (Ilastik) together with watershed algorithm to obtain as accurate and unbiased segmentation as possible. Below we create the label matrix and run it through the same size thresholding limits as previously with the pixel values:
+The label matrix contains information and labels of each individual cell from the watershed segmentation. We use the machine learning segmentation tool (Ilastik) together with the watershed algorithm to obtain as accurate and unbiased segmentation as possible. Below we create the label matrix and run it through the same size thresholding limits as previously done with the pixel values:
 ```
 Label  = watershed(seed);
 Label2 = bwareaopen(Label,100);              % min                   
@@ -166,7 +166,7 @@ To visualize the label matrix, look at the variable "Final_Label_MEMB" in Matlab
 
 <img src="images/3D-rendition-VolumeViewer-kidney.jpeg" width="400">
 
-...or save the label and segmentation borders to disk and look at them in FIJI/ImageJ:
+...or save the label and segmentation borders to the disk and look at them in FIJI/ImageJ:
 ```
 for z = 1 : size(Final_Label,3)                                
     imwrite(Final_Label(:,:,z),'Final_Label_membrane.tif','compression','none','writemode','append');
@@ -183,7 +183,7 @@ for z = 1 : size(original_img,3)
 
 ## Extracting spatial and volumetric parameter values for each cell
 
-Using the Matlab function "regionprops3" we extract the volumetric and spatial parameter values from the label matrix. We introduce all together 8 different parameters:
+Using the Matlab function "regionprops3", we extract the volumetric and spatial parameter values from the label matrix. We introduce eight different parameters:
 ```
 stats = regionprops3(Final_Label,'all');
 
@@ -196,10 +196,10 @@ LongestAxis          = stats.PrincipalAxisLength(:,1); % length of the longest a
 CellElongation       = LongestAxis./((stats.PrincipalAxisLength(:,2).*stats.PrincipalAxisLength(:,3))./2);
 NumberOfCells        = size(stats.Volume,1);           % number of cells
 ```
-*Description of our parameters are shown on this table:*
+*Descriptions of our parameters are shown in this table:*
 <img src="images/parameters.png" width="700">
 
-We check the volume distribution of the cells with histogram plot:
+Check the volume distribution of the cells with histogram plot:
 ```
 figure                                                              
 hist(CellVolumes,100)
@@ -209,7 +209,7 @@ xlabel('Cell Volume in voxels')
 ```
 <img src="images/tbud_volumes_histogram.jpeg" width="400">
 
-Prepare parameter matrices for clustering and heat map visualization. We can compare five of our eight parameters to each other using clustering. In section 10 of the script, we fill matrices with these parameter values and by knocking some of the parameters out one by one, we show the different combinations of these parameters:
+Prepare parameter matrices for clustering and heat map visualization. We can compare five of our eight parameters to each other using clustering. In Section 10 of the script, we fill matrices with these parameter values, and by knocking some of the parameters out one by one, we show the different combinations of these parameters:
 ```
 % 10.1) All the parameter values
 stats_matrix_all      = zeros(NumberOfCells,5);                    
@@ -242,7 +242,7 @@ zscored_1and3and4 = zscore(stats_matrix_1and3and4);
 zscored_1and4     = zscore(stats_matrix_1and4);
 zscored_1and3     = zscore(stats_matrix_1and3);
 ```
-We save the matrices to disk so that in case we want to visualize these parameters later, we do not have to run the scrpit from the beginning:
+Save the matrices to the disk to visualize these parameters later without the need to run the script from the beginning:
 ```
 save('Final_Label','Final_Label')
 save('stats','stats')
@@ -263,8 +263,8 @@ parameters_1and3     = {'Cell Volume','Cell Ellipticity'};
 ```
 ### Create hierarchial clustering heat maps of the parameter values
 
-We use the matlab "clustergram" function to create hierarchial clustering heat maps for all the parameter values in each cell. Each column represents  individual cell whereas each row represents parameter value. Red indicates high value and blue low value.
-Visualized here are two example heat maps (all parameters and parameters 3 through 5), yet all possible ones are in the script and come to the screen by default after running the section 12.2. The heat map branches can be assigned with color of choice manually, as demonstrated below.
+We use the Matlab "clustergram" function to create hierarchial clustering heat maps for all parameter values in each cell. Each column represents an individual cell whereas each row represents a parameter value. Red indicates high value and blue low value.
+Visualized here are two example heat maps (all parameters and only parameters 3 through 5), yet all possible ones are in the script and come to the screen by default after running Section 12.2. The heat map branches can be assigned with color of choice manually, as demonstrated below.
 
 ```
 heatm_all       = clustergram(zscored','RowLabels',parameters','ColumnPDist','cosine','RowPdist','cosine','DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
@@ -280,7 +280,7 @@ heatm_3thru5    = clustergram(zscored_3thru5','RowLabels',parameters_1thru4','Co
 
 ### Vizualization - map the chosen groups of cells back to their spatial context
 
-In the section 12.3 in our script the code is asking the user to type in the information of the heat map branch (i.e. certain group of cells that form cluster in the heat map) that user wants to map back into original image. First, write the heat map. For example:
+In Section 12.3 of the script, the code asks the user to type in the information of the heat map branch (i.e. a certain group of cells that cluster in the heat map) that the user wants to map back into original image. First, write the heat map. For example:
 ```
 % 1. which heatmap? 
 heatm_to_visualize = heatm_all;
@@ -288,7 +288,7 @@ heatm_to_visualize = heatm_all;
 % 2. what is the corresponding stat_matrix of this heatmap?
 stats_matrix_to_visualize = stats_matrix_all;
 ```
-Then, write the number of heat map branches that represent the groups of cells you want to map back to original image (the branch number comes visible when you click on the branch). In addition, write the name of the file that will have the groups of cells mapped back to original image. The file wil be saved as .tif z-stack to your disk. For example:
+Then, write the number of heat map branches that represent the groups of cells you want to map back to original image (the branch number becomes visible when you click on the branch). In addition, write the name of the file that will have the groups of cells mapped back to original image. The file wil be saved as .tif z-stack to your disk. For example:
 
 *Let's select the branch (marked with red) from this heatmap we just created*
 
@@ -301,7 +301,7 @@ branches = [307];
 % 4. what is going to be the name of the colored .tif image?
 name = 'newgroup.tif';
 ```
-Next, we create an empty structure which we then fill in with the information given above (sections 12.5 and 12.6):
+Next, create an empty structure to fill in with the information given above (Sections 12.5 and 12.6):
 ```
 xp = struct('stats_all',[],'SpatParamVals',[],'CellIdentities',[],'Centroid',[],...
     'SpatParamVals_len',[]);
@@ -326,11 +326,11 @@ cmp(5,:)  = [0.9,1,0];     % yellow
 cmp(6,:)  = [0.1,0.9,1];   % light blue    
 cmp(7,:)  = [0.6,0.9,0.4]; % green
 ```
-The way to access this color map is to use the following variable as an arrow that points the color user wants to start with. Default is to start with color number 1 (dark blue):
+The way to access this color map is to use the following variable as an arrow that points to the color the user wants to start with. The default is to start with color number 1 (dark blue):
 ```
 counter = 1;
 ```
-The counter is a loop variable which goes through the number of branches we chose previously. Next step is to create sub cluster  and fill it with the the cells in chosen branches (structure with list "cells_of_interest" in it). In addition, we show the original image as a z-projection on the screen. This will be background for the chosen cell group's cetroid dots:
+The counter is a loop variable which goes through the number of branches previously chosen. The next step is to create a sub cluster and fill it with the the cells in chosen branches (structure with list "cells_of_interest" in it). In addition, the original image appears as a z-projection on the screen. This will be background for the chosen cell group's cetroid dots:
 ```
 sub_cluster = struct('cells_of_interest',[]);
 CellIdentities = cat(1,xp.CellIdentities);
@@ -339,7 +339,7 @@ figure
 imshow(max(original_img,[],3),[]) 
 hold on
 ```
-Loop through the number of branches, filling the created structure list with each cell group's cell identities. This part also plots all the cell centroids on top of the original image open on screen, each group is colored with different color:
+Loop through the number of branches, filling the created structure list with each cell group's cell identities. This part also plots the cell centroids on top of the original image open on the screen; each group is colored with a different color:
 ```
 for n = branches 
         group_of_interest = clusterGroup(heatm_to_visualize, n, 'col');
@@ -360,7 +360,7 @@ hold off
 
 <img src="images/centroid_exmp.png" width="300">
 
-Next, we search these groups of cells from the original label matrix:
+Next, search for these groups of cells from the original label matrix:
 ```
 for i = 1 : length(sub_cluster)
     template = sub_cluster(i).cells_of_interest;
@@ -380,7 +380,7 @@ for i = 1 : length(sub_cluster)
     sub_cluster_pruned(i).cells_of_interest = id_group; 
 end
 ```
-Now, we create the final sub label which has the labels of the cells we are interested, but this time the labels are from the original label matrix. This way the spatial location of sub label cells are correct:
+Now, create the final sub label, which has the labels of your cells of interest, but this time the labels are from the original label matrix. This way the spatial locations of sub label cells are correct:
 ```
 Label_sub = 0*Final_Label;   
 
@@ -391,7 +391,7 @@ for c = 1 : length(sub_cluster_pruned)
     end
 end
 ```
-Last step is to save the colored sub label to disk as .tif format z-stack. This z-stack is then interleaved with original image z-stack in FIJI/ImageJ and converted into average intensity z-projection resulting image below.
+The last step is to save the colored sub label to the disk as a .tif format z-stack. This z-stack is then interleaved with the original image z-stack in FIJI/ImageJ and converted into the average intensity z-projection, resulting in the image below.
 ```
 for z = 1 : size(Label_sub,3)
     temp  = zeros(size(Label_sub,1),size(Label_sub,2),3,'uint8');
