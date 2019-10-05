@@ -59,6 +59,13 @@ title('z-projection, raw membrane image')
 ```
 <img src="images/tbud_original_img_zproj.png" width="400">
 
+Add the pixel size info in order to have the volumes in cubed microns:
+```
+pixelSize = 0.113;
+voxelDepth = 0.356;
+voxelSize = (pixelSize^2)*voxelDepth;
+```
+
 Next, we create a blurred version of the membrane z-stack image and visualize it as summed z-projection. This will help to connect any gaps in the staining:
 ```
 img_blur = imdilate(original_img,strel3D('sphere',3));
@@ -243,11 +250,12 @@ zscored_1and3and4 = zscore(stats_matrix_1and3and4);
 zscored_1and4     = zscore(stats_matrix_1and4);
 zscored_1and3     = zscore(stats_matrix_1and3);
 ```
-We save the matrices to disk so that in case we want to visualize these parameters later, we do not have to run the scrpit from the beginning:
+We save the matrices to disk so that in case we want to visualize these parameters later, we do not have to run the scrpit from the beginning. In addition, save the matrix of all volumetric measurements in .csv form so that it can be further inspected in excel, for example:
 ```
 save('Final_Label','Final_Label')
 save('stats','stats')
 save('stats_matrix_all','stats_matrix_all')
+csvwrite('volumetric_measurements.csv',stats_matrix_all);
 ```
 Create a list of parameter names for the clustergram heat maps:
 ```
