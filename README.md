@@ -450,7 +450,7 @@ end
 ```
 For example, we used this image as our membrane staining:
 
-<img src="images/191002_MembTest_6somite_Samp2_647Ecad_568Sox9_488Bcat_Dapi(expFixed)_1_MMStack_Pos0_ECAD.tif kept stack.png.png" width="300">
+<img src="images/kept-stack-ecad.png" width="300">
 
 And this image as the first fluorescent signal staining:
 
@@ -497,7 +497,7 @@ hold off
 ```
 For our example images, the resulting centroid image looks as follows:
 
-<img src="images/double-positives-Centroids.png" width="300">
+<img src="images/double-positives-Centroids.png" width="380">
 
 Finally, we create the sub-label matrix based on the cell identification numbers that have double positive values (positive for both fluorescent signals) and save this as .tiff to the disk. Remember to change the name (between the lies below):
 
