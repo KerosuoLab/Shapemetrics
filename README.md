@@ -409,6 +409,8 @@ end
 
 <img src="images/colored_exmp.png" width="300">
 
+# Compare the segmented cells with fluorescent signal
+
 In addition, we can use this code to compare the cell segmentation with nuclear staining or fluorescent signal segmentation results. To do so, one must first run the segmentation part of our pipeline for the desired fluorescent signal files. After doing so, drag the resulting "stats" -files to your MATLAB workspace. In our code, we provide the possibility of comparing the cell segmentation to two different staining signals. These are marked as "fluor1" and "fluor2". Exapmles of such comparable staining is for example DAPI, which results just normal nucleus segmentation. The other possibility is to use specific fluorescent staining. 
 
 First, we allocate matrix where the cell label numbers will be saved together with "true" and "false" values for whether the certain cell has either or both of the fluorescent signals. We then loop through the number of cells and for each cell, we go through the voxel list of that cell and compare it to the centroid array of each fluorescent signal label. If the centroid of the fluorescent signal is found inside the cell's voxel list, we get positive signal, and the boolean value "true", i.e. value 1 will be located into the comparison matrix. Otherwise the matrix has value of "false", i.e. 0.
@@ -445,6 +447,15 @@ for N = 1:size(stats,1)
   
 end
 ```
+For example, we used this image as our membrane staining:
+<img src="images/191002_MembTest_6somite_Samp2_647Ecad_568Sox9_488Bcat_Dapi(expFixed)_1_MMStack_Pos0_ECAD.tif kept stack.png.png" width="300">
+And this image as the first fluorescent signal staining:
+<img src="images/DAPI-middleStack.png" width="300">
+And this image as the second fluorescent signal staining:
+<img src="images/SOX9-middleStack.png" width="300">
+
+And after running all three of them individually though the segmentation, we obtained the "stats" files, and were able to run the comparison.
+
 Now we have obtained the number of positive cells for both fluorescent signals. "Npositives_fluor1" tells the number of cells with fluorescent1 signal. Analogically, "Npositives_fluor2" tells the number of cells with fluorescent2 signal. In addition to the number of these cells, the identification numbers of those cells are saved in the comparison matrix together with the identification / label numbers of positive signals.
 
 Next, we want to visualize the cells that have positive signal in both fluorescent stainings, i.e. the cells that contain both fluorescent stainings. First, we pre-allocate and again choose the colour (counter):
@@ -478,7 +489,9 @@ plot(positives.Centroid(sub_cluster(counter).cells_of_interest,1),...
 hold off
 
 ```
-And finally, we create the sub-label matrix based on the cell identification numbers that have double positive values (positive for both fluorescent signals) and save this as .tiff to the disk. Remember to change the name (between the lies below):
+For our example images, the resulting centroid image looks as follows:
+<img src="images/double-positives-Centroids.png" width="300">
+Finally, we create the sub-label matrix based on the cell identification numbers that have double positive values (positive for both fluorescent signals) and save this as .tiff to the disk. Remember to change the name (between the lies below):
 
 ```
 sub_cluster_pruned = sub_cluster;
@@ -522,3 +535,7 @@ for z = 1 : size(Label_sub,3)
     %=========================================================================%
     imwrite(temp,name,'tiff','Compression','none','WriteMode','append');
 end
+
+```
+When this sub-label .tiff is combined with the original membrane staining image in FIJI/ImageJ and viewed as z-projection, we get the following result for our positive fluorescent signal cell group:
+<img src="images/STD_double-positives.png" width="300">
