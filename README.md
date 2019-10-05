@@ -8,6 +8,7 @@
 - [Extracting spatial parameters](#extracting-spatial-and-volumetric-parameter-values-for-each-cell)
   - [Create parameter value heat maps](#create-hierarchial-clustering-heat-maps-of-the-parameter-values)
   - [Visualization](#vizualization---map-the-chosen-groups-of-cells-back-to-their-spatial-context)
+- [Compare the cells with fluorescent signal location](#Compare-the-segmented-cells-with-fluorescent-signal)
 
 When you open our script segmentation3D_script.m in matlab, make sure that you are in the right folder (where all your files are) so that matlab can download the files in without errors.
 The folder can be changed from the small arrow on the top line of matlab window, where your current path is showing or by moving the script itself to the right folder.
@@ -448,10 +449,15 @@ for N = 1:size(stats,1)
 end
 ```
 For example, we used this image as our membrane staining:
+
 <img src="images/191002_MembTest_6somite_Samp2_647Ecad_568Sox9_488Bcat_Dapi(expFixed)_1_MMStack_Pos0_ECAD.tif kept stack.png.png" width="300">
+
 And this image as the first fluorescent signal staining:
+
 <img src="images/DAPI-middleStack.png" width="300">
+
 And this image as the second fluorescent signal staining:
+
 <img src="images/SOX9-middleStack.png" width="300">
 
 And after running all three of them individually though the segmentation, we obtained the "stats" files, and were able to run the comparison.
@@ -490,7 +496,9 @@ hold off
 
 ```
 For our example images, the resulting centroid image looks as follows:
+
 <img src="images/double-positives-Centroids.png" width="300">
+
 Finally, we create the sub-label matrix based on the cell identification numbers that have double positive values (positive for both fluorescent signals) and save this as .tiff to the disk. Remember to change the name (between the lies below):
 
 ```
@@ -538,4 +546,6 @@ end
 
 ```
 When this sub-label .tiff is combined with the original membrane staining image in FIJI/ImageJ and viewed as z-projection, we get the following result for our positive fluorescent signal cell group:
+
+
 <img src="images/STD_double-positives.png" width="300">
