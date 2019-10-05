@@ -391,7 +391,7 @@ for c = 1 : length(sub_cluster_pruned)
     end
 end
 ```
-Last step is to save the colored sub label to disk as .tif format z-stack. This z-stack is then interleaved with original image z-stack in FIJI/ImageJ and converted into average intensity z-projection resulting image below.
+Next step is to save the colored sub label to disk as .tif format z-stack. This z-stack is then interleaved with original image z-stack in FIJI/ImageJ and converted into average intensity z-projection resulting image below.
 ```
 for z = 1 : size(Label_sub,3)
     temp  = zeros(size(Label_sub,1),size(Label_sub,2),3,'uint8');
@@ -408,3 +408,117 @@ end
 ```
 
 <img src="images/colored_exmp.png" width="300">
+
+In addition, we can use this code to compare the cell segmentation with nuclear staining or fluorescent signal segmentation results. To do so, one must first run the segmentation part of our pipeline for the desired fluorescent signal files. After doing so, drag the resulting "stats" -files to your MATLAB workspace. In our code, we provide the possibility of comparing the cell segmentation to two different staining signals. These are marked as "fluor1" and "fluor2". Exapmles of such comparable staining is for example DAPI, which results just normal nucleus segmentation. The other possibility is to use specific fluorescent staining. 
+
+First, we allocate matrix where the cell label numbers will be saved together with "true" and "false" values for whether the certain cell has either or both of the fluorescent signals. We then loop through the number of cells and for each cell, we go through the voxel list of that cell and compare it to the centroid array of each fluorescent signal label. If the centroid of the fluorescent signal is found inside the cell's voxel list, we get positive signal, and the boolean value "true", i.e. value 1 will be located into the comparison matrix. Otherwise the matrix has value of "false", i.e. 0.
+
+```
+comparison_matrix  = zeros(size(stats,1),5);
+Npositives_fluor1  = 0;
+Npositives_fluor2  = 0; 
+centroid_fluor1    = zeros(1,3);
+centroid_fluor2    = zeros(1,3);
+
+for N = 1:size(stats,1)
+
+    voxelList = stats.VoxelList(N,:);
+    voxelList = voxelList{:,:};
+    
+    comparison_matrix(N,1) = N; % cell label
+    for n = 1:size(stats_fluor1,1)  % fluor1 signal
+        centroid_fluor1 = round(stats_fluor1.Centroid(n,:)); 
+        if ismember(centroid_fluor1,voxelList,'rows')==1
+            comparison_matrix(N,2) = n; % since we have signal, write down the dapi signal label
+            comparison_matrix(N,3) = 1; % yes, we have fluor1 signal in cell N.  ( 1 = positive, 0 = negative )
+            Npositives_fluor1 = Npositives_fluor1 +1;
+        end
+    end
+    for h = 1:size(stats_fluor2,1) % the other fluorescent signal
+        centroid_fluor2 = round(stats_fluor2.Centroid(h,:));
+        if ismember(centroid_fluor2,voxelList,'rows')==1
+            comparison_matrix(N,4) = h; % since we have signal, write down the fluor label number
+            comparison_matrix(N,5) = 1; % yes, we have fluor signal.( 1 = positive, 0 = negative )
+            Npositives_fluor2 = Npositives_fluor2 + 1;
+        end
+    end
+  
+end
+```
+Now we have obtained the number of positive cells for both fluorescent signals. "Npositives_fluor1" tells the number of cells with fluorescent1 signal. Analogically, "Npositives_fluor2" tells the number of cells with fluorescent2 signal. In addition to the number of these cells, the identification numbers of those cells are saved in the comparison matrix together with the identification / label numbers of positive signals.
+
+Next, we want to visualize the cells that have positive signal in both fluorescent stainings, i.e. the cells that contain both fluorescent stainings. First, we pre-allocate and again choose the colour (counter):
+
+```
+positives = struct('positive_stats',[],'CellIdentities',[],'Centroid',[]);
+positives.positive_stats = load('stats'); % stats of cells, make sure you are in the right folder
+positives.Centroid       = positives.positive_stats.stats.Centroid;
+positives.CellIdentities = find(positives.positive_stats.stats.Volume);
+
+counter = 1; % for the color
+```
+Then, we visualize the centroids on top of the original membrane staining image:
+
+```
+sub_cluster = struct('cells_of_interest',[]);
+CellIdentities = cat(1,positives.CellIdentities);
+
+figure
+imshow(max(original_img,[],3),[]) 
+hold on
+for i = 1:size(comparison_matrix,1)
+    if (comparison_matrix(i,5) == 1)
+        cells_of_Interest(i,1) = i;
+    end
+end
+cells_of_Interest(cells_of_Interest == 0) = []; %remove the xeroes
+sub_cluster(counter).cells_of_interest = cells_of_Interest;
+plot(positives.Centroid(sub_cluster(counter).cells_of_interest,1),...
+         positives.Centroid(sub_cluster(counter).cells_of_interest,2),'*','color',cmp(counter,:),'LineWidth',3); 
+hold off
+
+```
+And finally, we create the sub-label matrix based on the cell identification numbers that have double positive values (positive for both fluorescent signals) and save this as .tiff to the disk. Remember to change the name (between the lies below):
+
+```
+sub_cluster_pruned = sub_cluster;
+for i = 1 : length(sub_cluster)
+    template = sub_cluster(i).cells_of_interest;
+    for j = 1 : length(sub_cluster)
+        pattern = sub_cluster(j).cells_of_interest;
+        if isempty(setdiff(pattern,template)) &&(i~=j)
+           sub_cluster_pruned(i).cells_of_interest = setdiff(template,pattern); 
+        end
+    end
+    cells_of_Interest = sub_cluster_pruned(i).cells_of_interest; 
+    %in_group = intersect(find(cells_of_Interest>range(1)),find(cells_of_Interest<range(2)));      
+    template = positives.CellIdentities; 
+    D = pdist2(template,cells_of_Interest);
+    in_positives_num = find(min(D,[],2)==0);
+    id_group = positives.CellIdentities(in_positives_num);
+    sub_cluster_pruned(i).cells_of_interest = id_group; 
+end
+Label_sub = 0*Final_Label;  
+
+for c = 1 : length(sub_cluster_pruned)
+    cells_of_Interest = sub_cluster_pruned(c).cells_of_interest;
+    for i = 1 : length(cells_of_Interest) 
+        Label_sub(Final_Label == cells_of_Interest(i)) = c;
+    end
+end
+
+for z = 1 : size(Label_sub,3)
+    temp  = zeros(size(Label_sub,1),size(Label_sub,2),3,'uint8');
+    for c = 1 : length(sub_cluster_pruned)
+        tmp = Label_sub(:,:,z);
+        tmp(tmp~=c) = 0;
+        tmp = tmp>0;
+        temp(:,:,1) = uint8(cmp(c,1).*255*double(tmp))+temp(:,:,1);
+        temp(:,:,2) = uint8(cmp(c,2).*255*double(tmp))+temp(:,:,2);
+        temp(:,:,3) = uint8(cmp(c,3).*255*double(tmp))+temp(:,:,3);
+    end
+    %=========================================================================%
+    name = 'double-positives';
+    %=========================================================================%
+    imwrite(temp,name,'tiff','Compression','none','WriteMode','append');
+end
