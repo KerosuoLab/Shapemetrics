@@ -215,7 +215,7 @@ title('Cell volumes, number of cells = 319 ') % write here number of cells
 ylabel('Number of Cells with certain volume')
 xlabel('Cell Volume in voxels')
 ```
-<img src="NEW-volume-HISTOGRAM.png" width="400">
+<img src="images/NEW-volume-HISTOGRAM.png" width="400">
 
 Prepare parameter matrices for clustering and heat map visualization. We can compare five of our eight parameters to each other using clustering. In section 10 of the script, we fill matrices with these parameter values and by knocking some of the parameters out one by one, we show the different combinations of these parameters:
 ```
