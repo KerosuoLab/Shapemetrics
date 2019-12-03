@@ -210,10 +210,10 @@ NumberOfCells        = size(stats.Volume,1);           % number of cells
 We check the volume distribution of the cells with histogram plot:
 ```
 figure                                                              
-hist(CellVolumes,100)
+hist(CellVolumes*voxelSize,100)
 title('Cell volumes, number of cells = 319 ') % write here number of cells
 ylabel('Number of Cells with certain volume')
-xlabel('Cell Volume in voxels')
+xlabel('Cell Volume in (um)^3')
 ```
 <img src="images/NEW-volume-HISTOGRAM.png" width="400">
 
