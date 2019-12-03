@@ -213,7 +213,7 @@ figure
 hist(CellVolumes*voxelSize,100)
 title('Cell volumes, number of cells = 319 ') % write here number of cells
 ylabel('Number of Cells with certain volume')
-xlabel('Cell Volume in (um)^3')
+xlabel('Cell Volume in cubed microns (um)^3')
 ```
 <img src="images/NEW-volume-HISTOGRAM.png" width="400">
 
