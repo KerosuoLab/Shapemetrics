@@ -1,4 +1,4 @@
-# 3D-segmentation script
+# Shapemetrics script
 
 - [Input data](#input-data)
 - [Thresholding](#thresholding)
