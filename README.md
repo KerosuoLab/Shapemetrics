@@ -9,6 +9,7 @@
   - [Create parameter value heat maps](#create-hierarchial-clustering-heat-maps-of-the-parameter-values)
   - [Visualization](#vizualization---map-the-chosen-groups-of-cells-back-to-their-spatial-context)
 - [Compare the cells with fluorescent signal location](#Compare-the-segmented-cells-with-fluorescent-signal)
+- [Multiple samples in one heat map](#Multiple-samples-in-one-heat-map)
 
 When you open our script segmentation3D_script.m in matlab, make sure that you are in the right folder (where all your files are) so that matlab can download the files in without errors.
 The folder can be changed from the small arrow on the top line of matlab window, where your current path is showing or by moving the script itself to the right folder.
@@ -557,3 +558,140 @@ When this sub-label .tiff is combined with the original membrane staining image 
 
 
 <img src="images/STD_double-positives.png" width="300">
+
+## Multiple samples in one heat map
+
+After segmenting individually your N number of samples, you can choose to compare them to each other within one heat map. For this to be succesfull, you need to make sure you have saved the Label matrix, "stats_matrix_all" and "stats" for each sample you want to compare and that they are in separate folders. Then, begin by setting the name of the sample folders:
+
+```
+root_path = '/home/local/htakko/Desktop/MATLAB/Kidney segmentation/3D-segmentation-2019-10-07(3and3)';
+folders   = {'sample-1-segmented','sample-2-segmented','sample-3-segmented'}; % folders here
+      
+xp = struct('stats_all',[],'Centroid',[]);
+
+```
+Then, we create joint heat map of these samples:
+```
+M = cat(1,xp.M);
+Mt = M';
+params  = {'Volume','Volume/Surface ratio','Ellipticity','Elongation','Longest Axis'};
+
+heatm   = clustergram(Mt,'RowLabels',params',...
+    'RowPDist','cosine','ColumnPDist','cosine','linkage','average',...
+    'DisplayRange',3,'Colormap',redbluecmap,'Cluster',3);
+```
+We continue in the same way as with single sapmle heat map, but this time we need to point out which sapmle do we want to pseudo-color from the list. We point out the sample with "xp_ref_num" variable. Important notice is to also change the name of the tiff file. The xp_ref_num is 1 for the first sample folder, 2 for the second sample folder and so on. If you wish to visualize branch x from the joint heat map in all your samples present in that heat map, you have to run this section ( section 14.2) separately for each xp_ref_num. 
+
+Below are the variables you need to change before each run of this section:
+```
+xp_ref_num = 3; % type here the embryo number: the number corresponds to the order number in the "folders". 1st is the first folder etc.
+counter    = 5;  % this pointer is for the color
+indices = 2903;  % the branch of heat map you want to visualize
+tiffname = 'name-your-file-here';
+```
+After these are determined, run the section (whole section 14.2. below):
+```
+%% 14: Visualize the 3 samples in one heatm
+
+%======================================================================================
+xp_ref_num = 3; % type here the embryo number: the number corresponds to the order number in the "folders". 1st is the first folder etc.
+counter    = 5;  % this pointer is for the color
+indices = 2903;  % the branch of heat map you want to visualize
+tiffname = 'name-your-file-here';
+%=======================================================================================
+cmp = jet(length(indices));
+cmp(1,:)  = [0.1,0.9,1];   % light blue    
+cmp(2,:)  = [0.8,0.6,0.9]; % lilac
+cmp(3,:)  = [0.6,0.9,0.4]; % green   
+cmp(4,:)  = [0.8,0.2,0.4]; % red pink   
+cmp(5,:)  = [0.9,1,0];     % yellow
+cmp(6,:)  = [0.1,0.4,1];   % dark blue 
+cmp(7,:)  = [0,0.8,0.8];   % cyan 
+cmp(8,:)  = [0.9,0,1];     % blueish purple 
+cmp(9,:)  = [1,0.6,0];     % burnt-ish orange   
+cmp(10,:) = [0.9,0.4,0.5]; % baby pink      
+
+sub_cluster_BIG = struct('cells_of_interest',[],'cells_of_interest_small',[]);
+CellIdentities = cat(1,xp.Big_ID); 
+bds = [0;cumsum(cat(1,xp.M_length))];
+
+for num = indices 
+    
+    group_of_interest = clusterGroup(heatm, num, 'col'); 
+    Col_Labels        = group_of_interest.ColumnLabels; % here we have extracted some column labels from the clustergram; 
+    
+    Double_Labels     = cell(0); % pre-allocating
+     
+    for i = 1 : length(Col_Labels)
+        Double_Labels{i} = str2double(Col_Labels{i});
+    end
+    cells_of_Interest_Big = CellIdentities(cell2mat(Double_Labels));
+    sub_cluster_BIG(counter).cells_of_interest = cells_of_Interest_Big;
+
+    for xp_num = 1 : length(xp)
+        % identify the cells that come from expertiment xp_num
+        in = intersect(find(cells_of_Interest_Big>bds(xp_num)),find(cells_of_Interest_Big<bds(xp_num+1)));
+        % find the corresponding identities in that experiment 
+        template = xp(xp_num).Big_ID; 
+        pattern = cells_of_Interest_Big(in);
+        distance = pdist2(template,pattern);
+        in_xp_num = find(min(distance,[],2)==0);
+        small_id = xp(xp_num).CellIdentities(in_xp_num);
+        sub_cluster_BIG(counter).cells_of_interest_small{xp_num} = small_id; 
+    end
+
+    counter = counter+1;
+end
+% here the end result is image of membrain staining with centroids for
+% selected subgroups
+
+sub_cluster_BIG_pruned = sub_cluster_BIG; % pre-allocating
+for i = 1 : length(sub_cluster_BIG)
+    template = sub_cluster_BIG(i).cells_of_interest;
+    for j = 1 : length(sub_cluster_BIG)
+        pattern = sub_cluster_BIG(j).cells_of_interest;
+        if isempty(setdiff(pattern,template)) &&(i~=j)
+            sub_cluster_BIG_pruned(i).cells_of_interest = setdiff(template,pattern); 
+        end
+    end
+
+    cells_of_Interest_Big = sub_cluster_BIG_pruned(i).cells_of_interest; 
+
+    for xp_num = 1 : length(xp)
+        % identify the cells that come from expertiment xp_num
+        in = intersect(find(cells_of_Interest_Big>bds(xp_num)),find(cells_of_Interest_Big<bds(xp_num+1)));
+        % find the corresponding identities in that experiment 
+        template = xp(xp_num).Big_ID; 
+        pattern = cells_of_Interest_Big(in);
+        distance = pdist2(template,pattern);
+        in_xp_num = find(min(distance,[],2)==0);
+        small_id = xp(xp_num).CellIdentities(in_xp_num);
+        sub_cluster_BIG_pruned(i).cells_of_interest_small{xp_num} = small_id; 
+    end
+end
+% Make culster 3D stack visualization with cell outlines
+
+Label = load(fullfile(root_path,folders{xp_ref_num},'Final_Label.mat')); 
+Label = Label.Final_Label;
+Label_sub = 0*Label; % pre-allocating
+for c = 1 : length(sub_cluster_BIG_pruned)
+    cells_of_Interest = sub_cluster_BIG_pruned(c).cells_of_interest_small{xp_ref_num};
+    for i = 1 : length(cells_of_Interest) 
+        Label_sub(Label==cells_of_Interest(i)) = c;
+    end
+end
+
+for z = 1 : size(Label_sub,3)
+    temp  = zeros(size(Label_sub,1),size(Label_sub,2),3,'uint8');
+    for c = 1 : length(sub_cluster_BIG_pruned)
+        tmp = Label_sub(:,:,z);
+        tmp(tmp~=c) = 0;
+        tmp = tmp>0;
+        temp(:,:,1) = uint8(cmp(c,1).*255*double(tmp))+temp(:,:,1);
+        temp(:,:,2) = uint8(cmp(c,2).*255*double(tmp))+temp(:,:,2);
+        temp(:,:,3) = uint8(cmp(c,3).*255*double(tmp))+temp(:,:,3);
+    end
+    imwrite(temp,[tiffname,num2str(xp_ref_num),'.tif'],'tiff','Compression','none','WriteMode','append');
+end 
+
+```
