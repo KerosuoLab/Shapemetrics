@@ -589,7 +589,7 @@ counter    = 5;  % this pointer is for the color
 indices = 2903;  % the branch of heat map you want to visualize
 tiffname = 'name-your-file-here';
 ```
-After these are determined, run the section (whole section 14.2. below):
+After these are determined, run the section (whole section 14.2. below). This will result as pseudo-colored .tiff image of chosen heat map group cells in the sample corresponding to the current xp_ref_num value. Note, these files are saved in the folder determined in the "root_path" variable, i.e. the folder which contains your individual sample folders.
 ```
 %% 14: Visualize the 3 samples in one heatm
 
