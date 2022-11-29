@@ -421,7 +421,7 @@ end
 
 # Compare the segmented cells with fluorescent signal
 
-In addition, we can use this code to compare the cell segmentation with nuclear staining or fluorescent signal segmentation results. To do so, one must first run the segmentation part of our pipeline for the desired fluorescent signal files. After doing so, drag the resulting "stats" -files to your MATLAB workspace. In our code, we provide the possibility of comparing the cell segmentation to two different staining signals. These are marked as "fluor1" and "fluor2". Exapmles of such comparable staining is for example DAPI, which results just normal nucleus segmentation. The other possibility is to use specific fluorescent staining. 
+In addition, we can use this code to compare the cell segmentation with fluorescent nuclear staining segmentation results. To do so, one must first run the segmentation part of our pipeline for the desired fluorescent signal file. After doing so, drag the resulting "stats" -files to your MATLAB workspace. In our code, these are marked as "fluor1" and "fluor2". Exapmles of such comparable staining is for Sox9 (nuclear marker) together with membrane staining cell segmentation. 
 
 First, we allocate matrix where the cell label numbers will be saved together with "true" and "false" values for whether the certain cell has either or both of the fluorescent signals. We then loop through the number of cells and for each cell, we go through the voxel list of that cell and compare it to the centroid array of each fluorescent signal label. If the centroid of the fluorescent signal is found inside the cell's voxel list, we get positive signal, and the boolean value "true", i.e. value 1 will be located into the comparison matrix. Otherwise the matrix has value of "false", i.e. 0.
 
@@ -441,7 +441,7 @@ for N = 1:size(stats,1)
     for n = 1:size(stats_fluor1,1)  % fluor1 signal
         centroid_fluor1 = round(stats_fluor1.Centroid(n,:)); 
         if ismember(centroid_fluor1,voxelList,'rows')==1
-            comparison_matrix(N,2) = n; % since we have signal, write down the dapi signal label
+            comparison_matrix(N,2) = n; % signal1
             comparison_matrix(N,3) = 1; % yes, we have fluor1 signal in cell N.  ( 1 = positive, 0 = negative )
             Npositives_fluor1 = Npositives_fluor1 +1;
         end
@@ -449,7 +449,7 @@ for N = 1:size(stats,1)
     for h = 1:size(stats_fluor2,1) % the other fluorescent signal
         centroid_fluor2 = round(stats_fluor2.Centroid(h,:));
         if ismember(centroid_fluor2,voxelList,'rows')==1
-            comparison_matrix(N,4) = h; % since we have signal, write down the fluor label number
+            comparison_matrix(N,4) = h; % signal2
             comparison_matrix(N,5) = 1; % yes, we have fluor signal.( 1 = positive, 0 = negative )
             Npositives_fluor2 = Npositives_fluor2 + 1;
         end
@@ -461,15 +461,15 @@ For example, we used this image as our membrane staining:
 
 <img src="images/kept-stack-ecad.png" width="300">
 
-And this image as the first fluorescent signal staining:
-
-<img src="images/DAPI-middleStack.png" width="300">
-
 And this image as the second fluorescent signal staining:
 
 <img src="images/SOX9-middleStack.png" width="300">
 
-And after running all three of them individually though the segmentation, we obtained the "stats" files, and were able to run the comparison.
+An alternative option can be also DAPI staining:
+
+<img src="images/DAPI-middleStack.png" width="300">
+
+And after running them individually though the segmentation, we obtained the "stats" files, and were able to run the comparison.
 
 Now we have obtained the number of positive cells for both fluorescent signals. "Npositives_fluor1" tells the number of cells with fluorescent1 signal. Analogically, "Npositives_fluor2" tells the number of cells with fluorescent2 signal. In addition to the number of these cells, the identification numbers of those cells are saved in the comparison matrix together with the identification / label numbers of positive signals.
 
